@@ -1,6 +1,7 @@
 import {Schema, model} from "mongoose";
 import { generateUniqueCode } from "../utils/helpers.js";
 import {MediaSchema} from "./media.model.js";
+import {tableNames} from '../constants/constants.js'
 
 const PortfolioSchema = new Schema(
 {
@@ -61,6 +62,6 @@ PortfolioSchema.pre("save", async function (next) {
 
 
 export default model(
-    "Portfolio",
+    tableNames.Portfolios,
     PortfolioSchema
 );

@@ -1,5 +1,6 @@
 import {Schema, model} from "mongoose";
 import { generateUniqueCode } from "../utils/helpers.js";
+import {tableNames} from '../constants/constants.js'
 
 const ServiceSchema =
 new Schema(
@@ -25,6 +26,10 @@ new Schema(
     Icon: {
         type: String,
         required: true
+    },
+    SortOrder: {
+        type: Number,
+        default: 0
     }
 });
 
@@ -38,6 +43,6 @@ ServiceSchema.pre("save", async function (next) {
 });
 
 export default model(
-    "Service",
+    tableNames.Services,
     ServiceSchema
 );

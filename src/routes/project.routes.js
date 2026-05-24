@@ -76,6 +76,13 @@ router.post(
     uploadProjectImages
 );
 
+router.post(
+    "/:projectCode/update-slug",
+    authenticateUser,
+    getPortfolioCode,
+    updateProjectSlug
+);
+
 router.put(
     "/:projectCode/images/:imageCode/replace",
     authenticateUser,

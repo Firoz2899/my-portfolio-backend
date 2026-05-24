@@ -3,6 +3,7 @@ import { model, Schema } from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken"
 import { config, generateUniqueCode, generateOTP } from "../utils/index.js";
+import {tableNames, Roles} from '../constants/constants.js'
 
 const UserSchema = new Schema(
 {
@@ -29,8 +30,8 @@ const UserSchema = new Schema(
   },
   Role: {
     type: String,
-    enum: ["SUPERADMIN", "USER"],
-    default: "USER"
+    enum: Object.values(Roles),
+    default: Roles.USER
   },
   IsActive: {
     type: Boolean,
@@ -75,7 +76,7 @@ UserSchema.methods.isPasswordCorrect = async function (password){
   return await bcrypt.compare(password, this.Password);
 };
 
-UserSchema.methods.isOtpCorrect = async function (otp){
+UserSchema.methods.isOtpCorrect = function (otp){
   if (!this.EmailOTPExpiry) {
     return false;
   }
@@ -144,6 +145,6 @@ UserSchema.methods.generateRefreshToken = function () {
 // };
 
 export default model(
-    "User",
+    tableNames.Users,
     UserSchema
 );

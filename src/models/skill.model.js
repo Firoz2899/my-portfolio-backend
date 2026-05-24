@@ -1,5 +1,6 @@
 import {Schema, model} from "mongoose";
 import { generateUniqueCode } from "../utils/helpers.js";
+import {tableNames} from '../constants/constants.js'
 
 const SkillSchema = new Schema(
     {
@@ -54,4 +55,4 @@ SkillSchema.pre("save", async function (next) {
 });
 
 
-export default model("Skill", SkillSchema);
+export default model(tableNames.Skills, SkillSchema);

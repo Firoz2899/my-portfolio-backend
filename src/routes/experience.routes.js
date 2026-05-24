@@ -10,6 +10,7 @@ import {
 
 import { authenticateUser } from "../middlewares/auth.middleware.js";
 import { getPortfolioCode } from "../middlewares/portfolioCode.middleware.js";
+import { experienceValidation, validate } from "../validators/index.js";
     
 const router = Router();
 
@@ -17,6 +18,8 @@ router.post(
   "/",
   authenticateUser,
   getPortfolioCode,
+  experienceValidation.createExperienceValidation(),
+  validate,
   createExperience
 );
 
@@ -24,6 +27,8 @@ router.put(
   "/:uniqueCode",
   authenticateUser,
   getPortfolioCode,
+  experienceValidation.updateExperienceValidation(),
+  validate,
   updateExperience
 );
 

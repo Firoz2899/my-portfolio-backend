@@ -2,6 +2,10 @@ import { Router } from "express";
 
 import * as auth from "../controllers/auth.controller.js";
 import {authenticateUser} from "../middlewares/auth.middleware.js";
+import {
+  authValidation,
+  validate
+} from "../validators/index.js";
 
 const router = Router();
 
@@ -13,16 +17,22 @@ const router = Router();
 
 router.post(
   "/signup",
+  authValidation.signUpValidation(),
+  validate,
   auth.signup
 );
 
 router.post(
   "/verify-email",
+  authValidation.verifyEmailValidation(),
+  validate,
   auth.verifyEmail
 );
 
 router.post(
   "/resend-otp",
+  authValidation.resendOtpValidation(),
+  validate,
   auth.resendOtp
 );
 
@@ -33,15 +43,19 @@ router.post(
 
 router.post(
   "/forgot-password",
+  authValidation.forgotPasswordValidation(),
+  validate,
   auth.forgotPassword
 );
 
 router.post(
   "/reset-password",
+  authValidation.resetPasswordValidation(),
+  validate,
   auth.resetPassword
 );
 
-router.post("/refresh-token", refreshAccessToken);
+router.post("/refresh-token", auth.refreshAccessToken);
 
 /*
 |--------------------------------------------------------------------------

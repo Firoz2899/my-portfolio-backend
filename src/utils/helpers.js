@@ -72,3 +72,8 @@ export const generateOTP = () => {
     100000 + Math.random() * 900000
   ).toString();
 };
+
+const escapedSlug = (slug) => slug.trim().replace(
+    /[.*+?^${}()|[\]\\]/g,
+    "\\$&"
+);

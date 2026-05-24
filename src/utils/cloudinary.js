@@ -1,6 +1,7 @@
 // utils/cloudinary.js
 
 import { generateUniqueCode } from "./helpers.js";
+import {CloudinaryFolders} from '../constants/constants.js'
 import { config } from "./config.js";
 
 import { v2 as cloudinary } from "cloudinary";
@@ -15,7 +16,7 @@ export default cloudinary;
 
 export const uploadToCloudinary = async (
     file,
-    folder = "portfolio"
+    folder = CloudinaryFolders.Portfolio.ProfilePictures
 ) => {
 
     return new Promise((resolve, reject) => {

@@ -1,6 +1,13 @@
-import { ApiResponse, asyncHandler, ApiError } from "../utils/index.js";
+import { 
+    ApiResponse, 
+    asyncHandler, 
+    ApiError, 
+    escapedSlug, 
+    uploadToCloudinary, 
+    deleteFromCloudinary 
+} from "../utils/index.js";
 import Project  from "../models/project.model.js";
-import { uploadToCloudinary, deleteFromCloudinary } from "../utils/cloudinary.js";
+import {CloudinaryFolders} from '../constants/constants.js'
 
 export const createProject = asyncHandler(async (req) => {
 
@@ -39,7 +46,7 @@ export const uploadProjectImages = asyncHandler(async (req) => {
         const image =
             await uploadToCloudinary(
                 file,
-                "projects/project-images"
+                CloudinaryFolders.Project.ProjectImages
             );
 
         uploadedImages.push(image);
@@ -91,7 +98,7 @@ export const replaceProjectImage = asyncHandler(async (req) => {
 
     const uploadedImage = await uploadToCloudinary(
         req.file,
-        "projects"
+        CloudinaryFolders.Project.ProjectImages
     );
 
     image.OriginalUrl = uploadedImage.OriginalUrl;
@@ -137,7 +144,7 @@ export const uploadCoverImage = asyncHandler(async (req) => {
 
     const image = await uploadToCloudinary(
         req.file,
-        "projects/covers"
+        CloudinaryFolders.Project.CoverImage
     );
 
     project.CoverImage = image;
@@ -189,12 +196,10 @@ export const deleteProjectImage = asyncHandler(async (req) => {
     );
 });
 
-export const updateProject = asyncHandler(async (req) => {
-
-    const { projectCode } = req.params;
-
+export const updateProjectSlug = asyncHandler(async (req) => {
+    const { UniqueCode, slug } = req.body;
     const project = await Project.findOne({
-        UniqueCode: projectCode,
+        UniqueCode,
         PortfolioUniqueCode: req.portfolioCode
     });
 
@@ -205,33 +210,14 @@ export const updateProject = asyncHandler(async (req) => {
         );
     }
 
-    const allowedFields = [
-        "Title",
-        "Slug",
-        "ShortDescription",
-        "Description",
-        "WebsiteUrl",
-        "GithubUrl",
-        "Technologies",
-        "Features",
-        "StartDate",
-        "EndDate",
-        "IsFeatured",
-        "IsActive"
-    ];
-
-    allowedFields.forEach(field => {
-        if(req.body[field] !== undefined){
-            project[field] = req.body[field];
-        }
-    });
+    project.Slug = slug.trim();
 
     await project.save();
 
     return new ApiResponse(
         200,
         project,
-        "Project updated successfully"
+        "Project slug updated successfully"
     );
 });
 
@@ -278,7 +264,12 @@ export const getProjectBySlug = asyncHandler(async (req) => {
 
     const { slug } = req.params;
 
-    const project = await Project.findOne({ Slug: slug });
+    const project = await Project.findOne({ 
+        Slug: {
+            $regex: `^${escapedSlug(slug.trim())}$`,
+            $options: "i"
+        } 
+    });
 
     if(!project){
         throw new ApiError(
@@ -311,6 +302,11 @@ export const deleteProject = asyncHandler(async (req) => {
     }
 
     const images = project.ProjectImages;
+    const coverImage = project.CoverImage;
+
+    if(coverImage?.PublicId){
+        await deleteFromCloudinary(coverImage.PublicId);
+    }
 
     if(images.length){
         for(const image of images){

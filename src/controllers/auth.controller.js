@@ -1,4 +1,5 @@
 import User from "../models/user.model.js";
+import Portfolio from "../models/portfolio.model.js";
 import {
   ApiError,
   ApiResponse,
@@ -20,18 +21,18 @@ const generateAccessAndRefereshTokens = async (uniqueCode) => {
         const accessToken = user.generateAccessToken()
         const refreshToken = user.generateRefreshToken()
 
-        user.refreshToken = refreshToken
+        user.RefreshToken = refreshToken
         await user.save({ validateBeforeSave: false })
 
         return { accessToken, refreshToken }
     } catch (error) {
-        throw new ApiError(500, ErrorTypes.Unknown_Error, "Something went wrong while generating referesh and access token")
+        throw new ApiError(500, "Something went wrong while generating referesh and access token")
     }
 }
 
 export const signup = asyncHandler(async (req) => {
 
-  const { Name, Email, Password } = req.body;
+  const { Name, Email, Password, PortfolioSlug } = req.body;
 
   const existingUser = await User.findOne({Email});
 
@@ -49,6 +50,11 @@ export const signup = asyncHandler(async (req) => {
     });
 
   await user.save();
+
+  await Portfolio.create({
+    UserUniqueCode: user.UniqueCode,
+    Slug: PortfolioSlug.trim()
+  });
 
   // send email otp here
 
@@ -246,7 +252,7 @@ export const logout = asyncHandler(async (req, res) => {
         throw new ApiError(404, "User not found")
     }
 
-    user.refreshToken = null;
+    user.RefreshToken = null;
     await user.save({ validateBeforeSave: false });
     return new ApiResponse(200, null, "Logged out successfully")
 })

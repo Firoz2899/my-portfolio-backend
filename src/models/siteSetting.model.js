@@ -1,4 +1,6 @@
 import {Schema, model} from 'mongoose';
+import {tableNames} from '../constants/constants.js'
+
 const SiteSettingSchema = new Schema({
     DefaultPortfolioUniqueCode: {
         type: String,
@@ -6,4 +8,4 @@ const SiteSettingSchema = new Schema({
     }
 });
 
-export default model('SiteSetting', SiteSettingSchema);
+export default model(tableNames.SiteSettings, SiteSettingSchema);

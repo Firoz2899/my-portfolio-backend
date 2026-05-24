@@ -1,5 +1,6 @@
 import {Schema, model} from "mongoose";
 import { generateUniqueCode } from "../utils/helpers.js";
+import {tableNames} from '../constants/constants.js'
 
 const ContactSchema = new mongoose.Schema(
     {
@@ -42,6 +43,6 @@ ContactSchema.pre("save", async function (next) {
 });
 
 export default model(
-    "Contact",
+    tableNames.Contacts,
     ContactSchema
 );
