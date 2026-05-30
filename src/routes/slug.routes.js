@@ -13,14 +13,17 @@ import { getPortfolioCode } from "../middlewares/portfolioCode.middleware.js";
 import { validateSlug } from "../middlewares/slug.middleware.js";
 import { authenticateUser } from "../middlewares/auth.middleware.js";
 import { authenticateRole } from "../middlewares/role.middleware.js";
+import {slugValidation, validate, commonValidation} from '../validator/index.js'
 
-import {Roles} from '../constants/constants.js'
+import {Roles, UniqueCodePrefixes} from '../constants/constants.js'
     
 const router = Router();
 
 router.post(
   "/validate",
   validateSlug,
+    slugValidation.createReservedSlugValidation(),
+    validate,
   checkSlugAvailability
 );
 
@@ -28,6 +31,8 @@ router.post(
     "/createReservedSlug",
     authenticateUser,
     authenticateRole([Roles.SUPERADMIN]),
+    slugValidation.createReservedSlugValidation(),
+    validate,
     createReservedSlug
 );
 
@@ -35,6 +40,9 @@ router.put(
     "/:uniqueCode",
     authenticateUser,
     authenticateRole([Roles.SUPERADMIN]),
+    commonValidation.validateUniqueCode(UniqueCodePrefixes.ReservedSlug),
+    slugValidation.updateReservedSlugValidation(),
+    validate,
     updateReservedSlug
 );
 
@@ -42,6 +50,8 @@ router.delete(
     "/:uniqueCode",
     authenticateUser,
     authenticateRole([Roles.SUPERADMIN]),
+    commonValidation.validateUniqueCode(UniqueCodePrefixes.ReservedSlug),
+    validate,
     deleteReservedSlug
 );
 
@@ -56,6 +66,8 @@ router.get(
     "/:uniqueCode",
     authenticateUser,
     authenticateRole([Roles.SUPERADMIN]),
+    commonValidation.validateUniqueCode(UniqueCodePrefixes.ReservedSlug),
+    validate,
     getReservedSlugByCode
 );
 

@@ -1,7 +1,7 @@
 import {Schema, model} from "mongoose";
 import { generateUniqueCode } from "../utils/helpers.js";
 import {MediaSchema} from "./media.model.js";
-import {tableNames} from '../constants/constants.js'
+import {tableNames, UniqueCodePrefixes} from '../constants/constants.js'
 
 const PortfolioSchema = new Schema(
 {
@@ -54,7 +54,7 @@ const PortfolioSchema = new Schema(
 PortfolioSchema.pre("save", async function (next) {
 
   if (!this.UniqueCode) {
-    this.UniqueCode = generateUniqueCode("POR");
+    this.UniqueCode = generateUniqueCode(UniqueCodePrefixes.Portfolio);
   }
 
   next();

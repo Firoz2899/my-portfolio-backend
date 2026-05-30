@@ -1,9 +1,6 @@
 import {body, check, param} from 'express-validator'
 import { regex } from '../constants/constants.js'
 
-import { body } from "express-validator";
-import { regex } from "../utils/index.js";
-
 export const signUpValidation = () => [
     body("Name")
         .trim()
@@ -13,7 +10,7 @@ export const signUpValidation = () => [
     body("Email")
         .notEmpty()
         .withMessage("Email is required")
-        .matches(regex.email)
+        .matches(regex.Email)
         .withMessage("Invalid Email"),
 
     body("Password")

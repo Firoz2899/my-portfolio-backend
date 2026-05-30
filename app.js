@@ -4,9 +4,10 @@ import cookieParser from "cookie-parser";
 import path from 'path';
 import fs from "fs";
 import { fileURLToPath } from 'url';
-import { handleError } from "./src/middlewares/index.js";
+import { handleError } from "./src/middlewares/handleError.middleware.js";
 import YAML from "yaml";
 import swaggerUi from "swagger-ui-express";
+import swaggerDocument from "./src/swagger_document.config.js";
 
 const app = express();
 
@@ -22,14 +23,6 @@ app.use(cookieParser());
 //#endregion
 
 //#region Swagger Documentation
-const file = fs.readFileSync(path.resolve(__dirname, "./src/swagger.yaml"), "utf8");
-const swaggerDocument = YAML.parse(
-  file?.replace(
-    "- url: ${{server}}",
-    `- url: http://localhost:3000/api/v1`
-  )
-);
-
 app.use(
   "/api-docs",
   swaggerUi.serve,
@@ -43,7 +36,7 @@ app.use(
 //#endregion
 
 //#region Routes
-import routes from './src/routes/index.js';
+import * as routes from './src/routes/index.js';
 
 app.use("/api/v1/auth", routes.authRoutes);
 app.use("/api/v1/skills", routes.skillRoutes);
@@ -52,6 +45,7 @@ app.use("/api/v1/services", routes.serviceRoutes);
 app.use("/api/v1/projects", routes.projectRoutes);
 app.use("/api/v1/slugs", routes.slugRoutes);
 app.use("/api/v1/portfolios", routes.portfolioRoutes);
+app.use("/api/v1/settings", routes.settingRoutes);
 //#endregion
 
 // 404 handler for unmatched routes

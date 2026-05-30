@@ -7,7 +7,8 @@ import {
     deleteFromCloudinary 
 } from "../utils/index.js";
 import Project  from "../models/project.model.js";
-import {CloudinaryFolders} from '../constants/constants.js'
+import {CloudinaryFolders, UniqueCodePrefixes} from '../constants/constants.js'
+import {generateUniqueCode} from '../utils/helpers.js'
 
 export const createProject = asyncHandler(async (req) => {
 
@@ -15,6 +16,27 @@ export const createProject = asyncHandler(async (req) => {
         PortfolioUniqueCode: req.portfolioCode,
         ...req.body
     });
+
+    return new ApiResponse(
+        201,
+        project,
+        "Project created successfully"
+    );
+});
+
+export const updateProject = asyncHandler(async (req) => {
+
+    const {uniqueCode} = req.params;
+
+    const project = await Project.findOne({
+        UniqueCode: uniqueCode,
+        PortfolioUniqueCode: req.portfolioCode
+    })
+
+    if(!project)
+        throw new ApiError(404, "Project not found or not authorized");
+
+    Object.assign(project, req.body)
 
     return new ApiResponse(
         201,
@@ -48,7 +70,7 @@ export const uploadProjectImages = asyncHandler(async (req) => {
                 file,
                 CloudinaryFolders.Project.ProjectImages
             );
-
+         image.UniqueCode = generateUniqueCode(UniqueCodePrefixes.Media);
         uploadedImages.push(image);
     }
 
@@ -146,6 +168,8 @@ export const uploadCoverImage = asyncHandler(async (req) => {
         req.file,
         CloudinaryFolders.Project.CoverImage
     );
+    
+    image.UniqueCode = generateUniqueCode(UniqueCodePrefixes.Media);
 
     project.CoverImage = image;
 

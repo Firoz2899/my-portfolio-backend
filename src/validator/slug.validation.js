@@ -16,7 +16,18 @@ export const createReservedSlugValidation = () => [
 ];
 
 export const updateReservedSlugValidation = () => [
-    param("uniqueCode")
+    body("Slug")
         .notEmpty()
-        .withMessage("UniqueCode is required")
+        .withMessage("Slug is required"),
+
+    body("SlugType")
+        .notEmpty()
+        .withMessage("SlugType is required")
+        .isIn([
+            "PORTFOLIO",
+            "PROJECT"
+        ]),
+
+    body("Description")
+        .optional()
 ];

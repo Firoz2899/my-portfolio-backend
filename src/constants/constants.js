@@ -33,5 +33,18 @@ export const CloudinaryFolders = Object.freeze({
 
 export const regex = Object.freeze({
     URL: /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)(\/[\w-]*)*(\?[\w-]+=[\w-]+(&[\w-]+=[\w-]+)*)?$/,
-    Slug: /^[a-z0-9]+(?:-[a-z0-9]+)*$/
+    Slug: /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
+    Email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+})
+
+export const UniqueCodePrefixes = Object.freeze({
+    Contact: "CNT",
+    Experience: "EXP",
+    Portfolio: "POR",
+    Project: "PRJ",
+    ReservedSlug: "RSL",
+    Media: "MED",
+    Service: "SRV",
+    Skill: "SKL",
+    User: "USR"
 })

@@ -1,9 +1,9 @@
 
 import { model, Schema } from "mongoose";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken"
 import { config, generateUniqueCode, generateOTP } from "../utils/index.js";
-import {tableNames, Roles} from '../constants/constants.js'
+import {tableNames, Roles, UniqueCodePrefixes} from '../constants/constants.js'
 
 const UserSchema = new Schema(
 {
@@ -53,7 +53,7 @@ const UserSchema = new Schema(
 UserSchema.pre("save", async function (next) {
 
   if (!this.UniqueCode) {
-    this.UniqueCode = generateUniqueCode("USR");
+    this.UniqueCode = generateUniqueCode(UniqueCodePrefixes.User);
   }
 
   if (this.isModified("Password")) {
@@ -145,6 +145,6 @@ UserSchema.methods.generateRefreshToken = function () {
 // };
 
 export default model(
-    tableNames.Users,
+    tableNames.User,
     UserSchema
 );

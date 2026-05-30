@@ -1,7 +1,7 @@
 import {Schema, model} from "mongoose";
 import { generateUniqueCode } from "../utils/helpers.js";
 import {MediaSchema} from "./media.model.js";
-import {tableNames} from '../constants/constants.js'
+import {tableNames, UniqueCodePrefixes} from '../constants/constants.js'
 
 const ProjectSchema = new Schema(
     {
@@ -67,7 +67,7 @@ const ProjectSchema = new Schema(
 ProjectSchema.pre("save", async function (next) {
 
   if (!this.UniqueCode) {
-    this.UniqueCode = generateUniqueCode("PRJ");
+    this.UniqueCode = generateUniqueCode(UniqueCodePrefixes.Project);
   }
 
   next();

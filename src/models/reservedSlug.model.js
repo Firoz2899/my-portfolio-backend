@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 import { generateUniqueCode } from "../utils/helpers.js";
-import {tableNames, ReservedSlugTypes} from '../constants/constants.js'
+import {tableNames, ReservedSlugTypes, UniqueCodePrefixes} from '../constants/constants.js'
 
 const ReservedSlugSchema = new Schema(
 {
@@ -33,7 +33,7 @@ ReservedSlugSchema.pre("save", function(next){
 
     if(!this.UniqueCode){
         this.UniqueCode =
-            generateUniqueCode("RSL");
+            generateUniqueCode(UniqueCodePrefixes.ReservedSlug);
     }
     this.Slug = this.Slug.trim().toLowerCase();
     next();

@@ -21,12 +21,6 @@ export const createProjectValidation = () => [
         .withMessage("Invalid GithubUrl")
 ];
 
-export const updateProjectValidation = () => [
-    param("projectCode")
-        .notEmpty()
-        .withMessage("ProjectCode is required")
-];
-
 export const updateProjectSlugValidation = () => [
     param("projectCode")
         .notEmpty(),

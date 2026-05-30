@@ -5,7 +5,7 @@ import {authenticateUser} from "../middlewares/auth.middleware.js";
 import {
   authValidation,
   validate
-} from "../validators/index.js";
+} from "../validator/index.js";
 
 const router = Router();
 

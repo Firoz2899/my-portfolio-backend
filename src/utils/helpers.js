@@ -73,7 +73,8 @@ export const generateOTP = () => {
   ).toString();
 };
 
-const escapedSlug = (slug) => slug.trim().replace(
+
+export const escapedSlug = (slug) => slug.trim().replace(
     /[.*+?^${}()|[\]\\]/g,
     "\\$&"
 );

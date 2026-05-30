@@ -14,9 +14,3 @@ export const createExperienceValidation = () => [
         .notEmpty()
         .withMessage("StartDate is required")
 ];
-
-export const updateExperienceValidation = () => [
-    param("uniqueCode")
-        .notEmpty()
-        .withMessage("UniqueCode is required")
-];

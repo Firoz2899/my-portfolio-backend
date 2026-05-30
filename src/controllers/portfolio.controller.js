@@ -5,9 +5,10 @@ import {
     asyncHandler,
     deleteFromCloudinary,
     uploadToCloudinary,
-    escapedSlug
+    escapedSlug,
+    generateUniqueCode
 } from "../utils/index.js";
-import {tableNames, CloudinaryFolders} from '../constants/constants.js'
+import {tableNames, CloudinaryFolders, UniqueCodePrefixes} from '../constants/constants.js'
 import SiteSettingModel from "../models/siteSetting.model.js";
 
 const getPortfolioCommonAggregatePipeline = (forPublic = false) => [
@@ -204,6 +205,8 @@ export const uploadProfileImage = asyncHandler(async (req) => {
         CloudinaryFolders.Portfolio.ProfilePictures
     );
 
+    image.UniqueCode = generateUniqueCode(UniqueCodePrefixes.Media);
+
     portfolio.ProfileImage = image;
 
     await portfolio.save();
@@ -238,6 +241,8 @@ export const uploadCoverImage = asyncHandler(async (req) => {
         req.file,
         CloudinaryFolders.Portfolio.CoverPictures
     );
+
+    image.UniqueCode = generateUniqueCode(UniqueCodePrefixes.Media);
 
     portfolio.CoverImage = image;
 
@@ -337,13 +342,14 @@ export const getPortfolioBySlug = asyncHandler(async (req) => {
 export const getDefaultPortfolio = asyncHandler(async (req) => {
     const siteSetting = await SiteSettingModel.findOne();
 
-    if (!siteSetting?.Settings?.DefaultPortfolioUniqueCode) {
-        throw new ApiError(
-            404,
-            "Default portfolio not configured"
-        );
+    if(!siteSetting || !siteSetting?.DefaultPortfolioUniqueCode){
+        return new ApiResponse(
+            200,
+            null,
+            "Default Profile not found. So, display home page now."
+        )
     }
-
+    
     const portfolio = await Portfolio.aggregate([
         {
             $match: {
@@ -354,10 +360,11 @@ export const getDefaultPortfolio = asyncHandler(async (req) => {
     ]);
 
     if (!portfolio.length) {
-        throw new ApiError(
-            404,
-            "Portfolio not found"
-        );
+        return new ApiResponse(
+            200,
+            null,
+            "Default Profile not found. So, display home page now."
+        )
     }
 
     return new ApiResponse(

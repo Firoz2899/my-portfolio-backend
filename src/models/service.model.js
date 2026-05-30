@@ -1,6 +1,6 @@
 import {Schema, model} from "mongoose";
 import { generateUniqueCode } from "../utils/helpers.js";
-import {tableNames} from '../constants/constants.js'
+import {tableNames, UniqueCodePrefixes} from '../constants/constants.js'
 
 const ServiceSchema =
 new Schema(
@@ -36,7 +36,7 @@ new Schema(
 ServiceSchema.pre("save", async function (next) {
 
   if (!this.UniqueCode) {
-    this.UniqueCode = generateUniqueCode("SRV");
+    this.UniqueCode = generateUniqueCode(UniqueCodePrefixes.Service);
   }
 
   next();

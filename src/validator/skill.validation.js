@@ -10,9 +10,3 @@ export const createSkillValidation = () => [
         .isInt({ min: 0, max: 100 })
         .withMessage("Percentage must be between 0 and 100")
 ];
-
-export const updateSkillValidation = () => [
-    param("uniqueCode")
-        .notEmpty()
-        .withMessage("UniqueCode is required")
-];

@@ -1,6 +1,6 @@
 import {Schema, model} from "mongoose";
 import { generateUniqueCode } from "../utils/helpers.js";
-import {tableNames} from '../constants/constants.js'
+import {tableNames, UniqueCodePrefixes} from '../constants/constants.js'
 
 const ContactSchema = new mongoose.Schema(
     {
@@ -36,7 +36,7 @@ const ContactSchema = new mongoose.Schema(
 ContactSchema.pre("save", async function (next) {
 
   if (!this.UniqueCode) {
-    this.UniqueCode = generateUniqueCode("CNT");
+    this.UniqueCode = generateUniqueCode(UniqueCodePrefixes.Contact);
   }
 
   next();

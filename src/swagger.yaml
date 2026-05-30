@@ -1,8 +1,8 @@
 openapi: 3.0.3
 info:
-  title: Portfolio Apis Docs
+  title: ${{title}}
   description: >-
-    # Portfolio.app
+    # ${{description}}
   version: 1.3.1
   contact: {}
 servers:
@@ -18,23 +18,7 @@ paths:
       content:
         application/json:
           schema:
-            type: object
-            required:
-              - Name
-              - Email
-              - Password
-            properties:
-              Name:
-                type: string
-                example: Firoz Ansari
-              Email:
-                type: string
-                format: email
-                example: firoz@gmail.com
-              Password:
-                type: string
-                format: password
-                example: Password@123
+            $ref: '#/components/schemas/SignupRequest'
     responses:
       "201":
         description: OTP sent successfully
@@ -54,17 +38,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              required:
-                - Email
-                - OTP
-              properties:
-                Email:
-                  type: string
-                  example: firoz@gmail.com
-                OTP:
-                  type: string
-                  example: "123456"
+              $ref: '#/components/schemas/VerifyEmailRequest'
       responses:
         "200":
           description: Email verified successfully
@@ -72,35 +46,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiResponse'
-        summary: Verify user's email using token
-        tags:
-          - Authentication
-        requestBody:
-          required: true
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - token
-                properties:
-                  token:
-                    type: string
-                    description: JWT email verification token
-                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-        responses:
-          "200":
-            description: Email verified successfully
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/ApiResponse'
-          "400":
-            description: Invalid or expired token
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/ApiError'
 
   /auth/resend-otp:
     post:
@@ -159,42 +104,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LoginResponse'
-
-
-      summary: Login user
-      tags:
-        - Authentication
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - Email
-                - Password
-              properties:
-                Email:
-                  type: string
-                  format: email
-                  example: john@example.com
-                Password:
-                  type: string
-                  format: password
-                  example: MySecurePass123
-      responses:
-        "200":
-          description: Login successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LoginResponse'
-        "400":
-          description: Invalid email, password, or email not verified
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiError'
 
   /auth/forgot-password:
     post:
@@ -281,65 +190,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/LoginResponse'
 
-                
-      tags: 
-        - Authentication
-      summary: Refresh access token
-      description: >
-        Generates a new **access token** and **refresh token** if the provided refresh token is valid.
-        <br><br>
-        You can send the refresh token through one of these:
-        - **Cookie:** `refreshToken`
-        - **Header:** `X-Authorization-Refresh`
-        - **Body:** `{ "refreshToken": "<token>" }`
-      parameters:
-        - name: X-Authorization-Refresh
-          in: header
-          required: false
-          schema:
-            type: string
-          description: Refresh token sent via custom header
-      requestBody:
-        required: false
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                refreshToken:
-                  type: string
-                  description: Refresh token sent in the request body
-                  example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-      responses:
-        '200':
-          description: Access token refreshed successfully
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  statusCode:
-                    type: integer
-                    example: 200
-                  data:
-                    type: object
-                    properties:
-                      accessToken:
-                        type: string
-                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6...
-                      refreshToken:
-                        type: string
-                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6...
-                  message:
-                    type: string
-                    example: Access token refreshed
-        '401':
-          description: Unauthorized — Invalid or expired refresh token
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiError'
-
   /auth/me:
     get:
       summary: Get logged in user
@@ -423,6 +273,85 @@ components:
           items:
             type: string
           example: []
+
+    SignupRequest:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - password
+      properties:
+        firstName:
+          type: string
+          example: Firoz
+        lastName:
+          type: string
+          example: Ansari
+        email:
+          type: string
+          format: email
+          example: admin@gmail.com
+        password:
+          type: string
+          example: Password@123
+
+    LoginRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          example: admin@gmail.com
+        password:
+          type: string
+          example: Password@123
+  
+    VerifyEmailRequest:
+    ServiceRequest:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+          example: Web Development
+        description:
+          type: string
+          example: Full stack web application development.
+        icon:
+          type: string
+
+    ProjectRequest:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        technologies:
+          type: array
+          items:
+            type: string
+        projectUrl:
+          type: string
+        githubUrl:
+          type: string
+        slug:
+          type: string
+
+    ReservedSlugRequest:
+      type: object
+      required:
+        - slug
+      properties:
+        slug:
+          type: string
+          example: admin
 
     LoginResponse:
       allOf:

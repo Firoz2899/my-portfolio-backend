@@ -59,3 +59,18 @@ export const updateDefaultPortfolio = asyncHandler(async (req) => {
         "Default portfolio updated successfully"
     );
 });
+
+export const deleteDefaultPortfolio = asyncHandler(async (req) => {
+
+    const settings = await SiteSettingModel.findOneAndDelete({});
+
+    if (!settings) {
+        throw new ApiError(404, "Default portfolio not found");
+    }
+    
+    return new ApiResponse(
+        200,
+        result,
+        "Default portfolio deleted successfully"
+    );
+});

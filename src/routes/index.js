@@ -1,7 +1,8 @@
-export * as authRoutes from './auth.routes.js';
-export * as skillRoutes from './skill.routes.js';
-export * as experienceRoutes from './experience.routes.js';
-export * as serviceRoutes from './service.routes.js';
-export * as projectRoutes from './project.routes.js';
-export * as slugRoutes from './slug.routes.js';
-export * as portfolioRoutes from './portfolio.routes.js';
+export {default as authRoutes} from './auth.routes.js';
+export {default as skillRoutes} from './skill.routes.js';
+export {default as experienceRoutes} from './experience.routes.js';
+export {default as serviceRoutes} from './service.routes.js';
+export {default as projectRoutes} from './project.routes.js';
+export {default as slugRoutes} from './slug.routes.js';
+export {default as portfolioRoutes} from './portfolio.routes.js';
+export {default as settingRoutes} from './setting.routes.js';

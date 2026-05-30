@@ -19,6 +19,6 @@ export * as skillValidation from "./skill.validation.js";
 export * as experienceValidation from "./experience.validation.js";
 export * as serviceValidation from "./service.validation.js";
 export * as projectValidation from "./project.validation.js";
-export * as reservedSlugValidation from "./reservedSlug.validation.js";
+export * as slugValidation from "./slug.validation.js";
 export * as siteSettingValidation from "./siteSetting.validation.js";
 //#endregion

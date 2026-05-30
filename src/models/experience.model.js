@@ -1,6 +1,6 @@
 import {Schema, model} from "mongoose";
 import { generateUniqueCode } from "../utils/helpers.js";
-import {tableNames} from '../constants/constants.js'
+import {tableNames, UniqueCodePrefixes} from '../constants/constants.js'
 
 const ExperienceSchema = new Schema(
     {
@@ -32,7 +32,7 @@ const ExperienceSchema = new Schema(
 ExperienceSchema.pre("save", async function (next) {
 
   if (!this.UniqueCode) {
-    this.UniqueCode = generateUniqueCode("EXP");
+    this.UniqueCode = generateUniqueCode(UniqueCodePrefixes.Experience);
   }
 
   next();
