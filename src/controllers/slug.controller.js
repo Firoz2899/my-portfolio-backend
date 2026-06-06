@@ -1,6 +1,6 @@
 import Portfolio from "../models/portfolio.model.js";
 import Project from "../models/project.model.js";
-import {ReservedSlugTypes} from '../constants/constants.js'
+import {ReservedSlugTypes, ErrorTypes} from '../constants/constants.js'
 import { ApiResponse, asyncHandler, escapedSlug } from "../utils/index.js";
 
 export const checkSlugAvailability = asyncHandler(async (req) => {
@@ -61,7 +61,8 @@ export const createReservedSlug = asyncHandler(async (req) => {
     if (exists) {
         throw new ApiError(
             400,
-            "Slug already exists"
+            "Slug already exists",
+            ErrorTypes.RESOURCE_ALREADY_EXISTS
         );
     }
 
@@ -90,7 +91,8 @@ export const updateReservedSlug = asyncHandler(async (req) => {
     if (!slug) {
         throw new ApiError(
             404,
-            "Reserved slug not found"
+            "Reserved slug not found",
+            ErrorTypes.NOT_FOUND
         );
     }
 
@@ -116,7 +118,8 @@ export const updateReservedSlug = asyncHandler(async (req) => {
         if (existing) {
             throw new ApiError(
                 400,
-                "Slug already exists"
+                "Slug already exists",
+                ErrorTypes.RESOURCE_ALREADY_EXISTS
             );
         }
 
@@ -149,7 +152,8 @@ export const deleteReservedSlug = asyncHandler(async (req) => {
     if (!slug) {
         throw new ApiError(
             404,
-            "Reserved slug not found"
+            "Reserved slug not found",
+            ErrorTypes.NOT_FOUND
         );
     }
 
@@ -186,7 +190,8 @@ export const getReservedSlugByCode = asyncHandler(async (req) => {
     if (!slug) {
         throw new ApiError(
             404,
-            "Reserved slug not found"
+            "Reserved slug not found",
+            ErrorTypes.NOT_FOUND
         );
     }
 

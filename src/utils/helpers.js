@@ -14,11 +14,12 @@ export const mongoUri = (userName, Password, dbName, clusterName, clusterNameSuf
 }
 
 export class ApiResponse { 
-  constructor(statusCode, data = null, message = null, errors = null, success) {
+  constructor(statusCode, data = null, message = null, errors = null, success, errorType = null) {
     this.IsSuccess = success || (statusCode >= 200 && statusCode < 300);
     this.statusCode = statusCode;
     this.Message = message ?? ((success || (statusCode >= 200 && statusCode < 300))? "Operation Successful" : "Operation Failed");
     this.Data = data;
+    this.ErrorType = errorType;
     this.Errors = errors;
   }
 }
@@ -27,6 +28,7 @@ export class ApiError extends Error {
   constructor(
     statusCode,
     message,
+    errorType,
     errors = [],
     stack = ""
     // isOperational = true
@@ -34,6 +36,7 @@ export class ApiError extends Error {
     super(message);
     this.statusCode = statusCode;
     this.message = message;
+    this.errorType = errorType;
     this.data = null;
     this.success = false;
     this.errors = errors;

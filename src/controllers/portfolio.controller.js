@@ -8,7 +8,7 @@ import {
     escapedSlug,
     generateUniqueCode
 } from "../utils/index.js";
-import {tableNames, CloudinaryFolders, UniqueCodePrefixes} from '../constants/constants.js'
+import {tableNames, CloudinaryFolders, UniqueCodePrefixes, ErrorTypes} from '../constants/constants.js'
 import SiteSettingModel from "../models/siteSetting.model.js";
 
 const getPortfolioCommonAggregatePipeline = (forPublic = false) => [
@@ -132,7 +132,8 @@ export const getPortfolio = asyncHandler(async (req) => {
     if (!portfolio.length) {
         throw new ApiError(
             404,
-            "Portfolio not found"
+            "Portfolio not found",
+            ErrorTypes.NOT_FOUND
         );
     }
 
@@ -150,7 +151,7 @@ export const updatePortfolio = asyncHandler(async (req) => {
     });
 
     if (!portfolio) {
-        throw new ApiError(404, "Portfolio not found");
+        throw new ApiError(404, "Portfolio not found", ErrorTypes.NOT_FOUND);
     }
 
     const allowedFields = [
@@ -190,7 +191,8 @@ export const uploadProfileImage = asyncHandler(async (req) => {
     if (!portfolio) {
         throw new ApiError(
             404,
-            "Portfolio not found"
+            "Portfolio not found",
+            ErrorTypes.NOT_FOUND
         );
     }
 
@@ -227,7 +229,8 @@ export const uploadCoverImage = asyncHandler(async (req) => {
     if (!portfolio) {
         throw new ApiError(
             404,
-            "Portfolio not found"
+            "Portfolio not found",
+            ErrorTypes.NOT_FOUND
         );
     }
 
@@ -264,7 +267,8 @@ export const deleteProfileImage = asyncHandler(async (req) => {
     if (!portfolio) {
         throw new ApiError(
             404,
-            "Portfolio not found"
+            "Portfolio not found",
+            ErrorTypes.NOT_FOUND
         );
     }
 
@@ -294,7 +298,8 @@ export const deleteCoverImage = asyncHandler(async (req) => {
     if (!portfolio) {
         throw new ApiError(
             404,
-            "Portfolio not found"
+            "Portfolio not found",
+            ErrorTypes.NOT_FOUND
         );
     }
 
@@ -328,7 +333,8 @@ export const getPortfolioBySlug = asyncHandler(async (req) => {
     if (!portfolio.length) {
         throw new ApiError(
             404,
-            "Portfolio not found"
+            "Portfolio not found",
+            ErrorTypes.NOT_FOUND
         );
     }
 
@@ -381,7 +387,7 @@ export const updatePortfolioSlug = asyncHandler(async (req) => {
     });
 
     if (!portfolio) {
-        throw new ApiError(404, "Portfolio not found");
+        throw new ApiError(404, "Portfolio not found", ErrorTypes.NOT_FOUND);
     }
 
     portfolio.Slug = req.params.slug.trim();

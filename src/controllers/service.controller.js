@@ -7,6 +7,8 @@ import {
   asyncHandler
 } from "../utils/index.js";
 
+import {ErrorTypes} from '../constants/constants.js'
+
 export const createService = asyncHandler(async (req) => {
 
   const {
@@ -43,7 +45,8 @@ export const updateService = asyncHandler(async (req) => {
   if (!service) {
     throw new ApiError(
       404,
-      "Service not found or unauthorized to update this service"
+      "Service not found or unauthorized to update this service",
+      ErrorTypes.UNAUTHORIZED_OR_NOT_FOUND
     );
   }
 
@@ -73,7 +76,8 @@ export const deleteService = asyncHandler(async (req) => {
   if (!service) {
     throw new ApiError(
       404,
-      "Service not found or unauthorized to delete this service"
+      "Service not found or unauthorized to delete this service",
+      ErrorTypes.UNAUTHORIZED_OR_NOT_FOUND
     );
   }
 
@@ -97,7 +101,8 @@ export const getServiceByCode = asyncHandler(async (req) => {
   if (!service) {
     throw new ApiError(
       404,
-      "Service not found or unauthorized to view this service"
+      "Service not found or unauthorized to view this service",
+      ErrorTypes.UNAUTHORIZED_OR_NOT_FOUND
     );
   }
 

@@ -5,6 +5,8 @@ import {
   asyncHandler
 } from "../utils/index.js";
 
+import {ErrorTypes} from '../constants/constants.js'
+
 export const getSiteSettings = asyncHandler(async () => {
 
     let settings =
@@ -37,7 +39,8 @@ export const updateDefaultPortfolio = asyncHandler(async (req) => {
     if (!portfolio) {
         throw new ApiError(
             404,
-            "Portfolio not found"
+            "Portfolio not found",
+            ErrorTypes.NOT_FOUND
         );
     }
 
@@ -65,7 +68,7 @@ export const deleteDefaultPortfolio = asyncHandler(async (req) => {
     const settings = await SiteSettingModel.findOneAndDelete({});
 
     if (!settings) {
-        throw new ApiError(404, "Default portfolio not found");
+        throw new ApiError(404, "Default portfolio not found", ErrorTypes.NOT_FOUND);
     }
     
     return new ApiResponse(

@@ -7,7 +7,7 @@ import {
     deleteFromCloudinary 
 } from "../utils/index.js";
 import Project  from "../models/project.model.js";
-import {CloudinaryFolders, UniqueCodePrefixes} from '../constants/constants.js'
+import {CloudinaryFolders, UniqueCodePrefixes, ErrorTypes} from '../constants/constants.js'
 import {generateUniqueCode} from '../utils/helpers.js'
 
 export const createProject = asyncHandler(async (req) => {
@@ -34,7 +34,7 @@ export const updateProject = asyncHandler(async (req) => {
     })
 
     if(!project)
-        throw new ApiError(404, "Project not found or not authorized");
+        throw new ApiError(404, "Project not found or not authorized", ErrorTypes.UNAUTHORIZED_OR_NOT_FOUND);
 
     Object.assign(project, req.body)
 
@@ -57,7 +57,8 @@ export const uploadProjectImages = asyncHandler(async (req) => {
     if(!project){
         throw new ApiError(
             404,
-            "Project not found or unauthorized to update this project"
+            "Project not found or unauthorized to update this project",
+            ErrorTypes.UNAUTHORIZED_OR_NOT_FOUND
         );
     }
 
@@ -99,7 +100,8 @@ export const replaceProjectImage = asyncHandler(async (req) => {
     if (!project) {
         throw new ApiError(
             404,
-            "Project not found or unauthorized to update this project"
+            "Project not found or unauthorized to update this project",
+            ErrorTypes.UNAUTHORIZED_OR_NOT_FOUND
         );
     }
 
@@ -110,7 +112,8 @@ export const replaceProjectImage = asyncHandler(async (req) => {
     if (!image) {
         throw new ApiError(
             404,
-            "Image not found"
+            "Image not found",
+            ErrorTypes.FILE_NOT_FOUND
         );
     }
 
@@ -156,7 +159,8 @@ export const uploadCoverImage = asyncHandler(async (req) => {
     if(!project){
         throw new ApiError(
             404,
-            "Project not found or unauthorized to update this project"
+            "Project not found or unauthorized to update this project",
+            ErrorTypes.UNAUTHORIZED_OR_NOT_FOUND
         );
     }
 
@@ -194,7 +198,8 @@ export const deleteProjectImage = asyncHandler(async (req) => {
     if(!project){
         throw new ApiError(
             404,
-            "Project not found or unauthorized to update this project"
+            "Project not found or unauthorized to update this project",
+            ErrorTypes.UNAUTHORIZED_OR_NOT_FOUND
         );
     }
 
@@ -203,7 +208,8 @@ export const deleteProjectImage = asyncHandler(async (req) => {
     if(!image){
         throw new ApiError(
             404,
-            "Image not found"
+            "Image not found",
+            ErrorTypes.FILE_NOT_FOUND
         );
     }
 
@@ -230,7 +236,8 @@ export const updateProjectSlug = asyncHandler(async (req) => {
     if(!project){
         throw new ApiError(
             404,
-            "Project not found or unauthorized to update this project"
+            "Project not found or unauthorized to update this project",
+            ErrorTypes.UNAUTHORIZED_OR_NOT_FOUND
         );
     }
 
@@ -257,7 +264,8 @@ export const getProjectByCode = asyncHandler(async (req) => {
     if(!project){
         throw new ApiError(
             404,
-            "Project not found or unauthorized to view this project"
+            "Project not found or unauthorized to view this project",
+            ErrorTypes.UNAUTHORIZED_OR_NOT_FOUND
         );
     }
 
@@ -298,7 +306,8 @@ export const getProjectBySlug = asyncHandler(async (req) => {
     if(!project){
         throw new ApiError(
             404,
-            "Project not found"
+            "Project not found",
+            ErrorTypes.NOT_FOUND
         );
     }
 
@@ -321,7 +330,8 @@ export const deleteProject = asyncHandler(async (req) => {
     if(!project){
         throw new ApiError(
             404,
-            "Project not found or unauthorized to delete this project"
+            "Project not found or unauthorized to delete this project",
+            ErrorTypes.UNAUTHORIZED_OR_NOT_FOUND
         );
     }
 
@@ -349,7 +359,8 @@ export const deleteProject = asyncHandler(async (req) => {
     if(!deletedProject){
         throw new ApiError(
             404,
-            "Project not found or unauthorized to delete this project"
+            "Project not found or unauthorized to delete this project",
+            ErrorTypes.UNAUTHORIZED_OR_NOT_FOUND
         );
     }
 

@@ -15,7 +15,11 @@ const PortfolioSchema = new Schema(
         type: String,
         required: true
     },
-    FullName: String,
+    FullName: {
+        type: String,
+        trim: true,
+        required: true
+    },
 
     Designation: String,
 
@@ -29,7 +33,13 @@ const PortfolioSchema = new Schema(
 
     ResumeUrl: String,
 
-    Email: String,
+    Email: {
+        type: String,
+        unique: true,
+        lowercase: true,
+        required: true,
+        trim: true,
+    },
 
     Phone: String,
 

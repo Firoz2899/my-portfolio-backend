@@ -1,5 +1,6 @@
 import { ApiResponse, asyncHandler, escapedSlug } from "../utils/index.js";
 import ReservedSlug from "../models/reservedSlug.model.js";
+import {ErrorTypes} from '../constants/constants.js'
 
 export const validateSlug = asyncHandler(async (req, res, next) => {
 
@@ -13,10 +14,10 @@ export const validateSlug = asyncHandler(async (req, res, next) => {
             SlugType: slugType.trim().toUpperCase()
         });
         if(reservedSlug){
-            throw new ApiError(400, "This slug is reserved");
+            throw new ApiError(400, "This slug is reserved", ErrorTypes.RESOURCE_ALREADY_EXISTS);
         }
         next()
     } catch (error) {
-        throw new ApiError(401, error?.message || "Invalid access token")
+        throw new ApiError(401, error?.message || "Invalid access token", ErrorTypes.UNKNOWN_ERROR)
     }
 });

@@ -5,6 +5,7 @@ import {
   ApiResponse,
   asyncHandler
 } from "../utils/index.js";
+import {ErrorTypes} from '../constants/constants.js'
 
 
 
@@ -21,7 +22,8 @@ export const createSkill = asyncHandler(async (req) => {
   if (!Title) {
     throw new ApiError(
       400,
-      "Title is required"
+      "Title is required",
+      ErrorTypes.REQUIRED_FIELD_MISSING
     );
   }
 
@@ -55,7 +57,8 @@ export const updateSkill = asyncHandler(async (req) => {
   if (!skill) {
     throw new ApiError(
       404,
-      "Skill not found or unauthorized to update this skill"
+      "Skill not found or unauthorized to update this skill",
+      ErrorTypes.UNAUTHORIZED_OR_NOT_FOUND
     );
   }
 
@@ -83,7 +86,8 @@ export const deleteSkill = asyncHandler(async (req) => {
   if (!deletedSkill) {
     throw new ApiError(
       404,
-      "Skill not found or unauthorized to delete this skill"
+      "Skill not found or unauthorized to delete this skill",
+      ErrorTypes.UNAUTHORIZED_OR_NOT_FOUND
     );
   }
 
@@ -106,7 +110,8 @@ export const getSkillByCode = asyncHandler(async (req) => {
   if (!skill) {
     throw new ApiError(
       404,
-      "Skill not found or unauthorized to access this skill"
+      "Skill not found or unauthorized to access this skill",
+      ErrorTypes.UNAUTHORIZED_OR_NOT_FOUND
     );
   }
 

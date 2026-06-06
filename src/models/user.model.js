@@ -7,17 +7,24 @@ import {tableNames, Roles, UniqueCodePrefixes} from '../constants/constants.js'
 
 const UserSchema = new Schema(
 {
-  Name: String,
-  Email:
-  {
+  FirstName: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  LastName: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  Email: {
     type: String,
     unique: true,
     lowercase: true,
     required: true,
     trim: true,
   },
-  Password:
-  {
+  Password: {
     type: String,
     required: true
   },

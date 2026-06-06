@@ -2,10 +2,15 @@ import {body, check, param} from 'express-validator'
 import { regex } from '../constants/constants.js'
 
 export const signUpValidation = () => [
-    body("Name")
+    body("FirstName")
         .trim()
         .notEmpty()
-        .withMessage("Name is required"),
+        .withMessage("FirstName is required"),
+
+    body("LastName")
+        .trim()
+        .notEmpty()
+        .withMessage("LastName is required"),
 
     body("Email")
         .notEmpty()

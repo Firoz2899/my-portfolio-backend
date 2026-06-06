@@ -1,5 +1,6 @@
 import Experience from "../models/experience.model.js";
 import Portfolio from "../models/portfolio.model.js";
+import {ErrorTypes} from '../constants/constants.js'
 
 import {
   ApiError,
@@ -47,7 +48,8 @@ export const updateExperience = asyncHandler(async (req) => {
   if (!experience) {
     throw new ApiError(
       404,
-      "Experience not found or unauthorized to update this experience"
+      "Experience not found or unauthorized to update this experience",
+      ErrorTypes.UNAUTHORIZED_OR_NOT_FOUND
     );
   }
 
@@ -77,7 +79,8 @@ export const deleteExperience = asyncHandler(async (req) => {
   if(!experience){
     throw new ApiError(
       404,
-      "Experience not found or unauthorized to delete this experience"
+      "Experience not found or unauthorized to delete this experience",
+      ErrorTypes.UNAUTHORIZED_OR_NOT_FOUND
     );
   }
 
@@ -101,7 +104,8 @@ export const getExperienceByCode = asyncHandler(async (req) => {
   if (!experience) {
     throw new ApiError(
       404,
-      "Experience not found or unauthorized to view this experience"
+      "Experience not found or unauthorized to view this experience",
+      ErrorTypes.UNAUTHORIZED_OR_NOT_FOUND
     );
   }
 

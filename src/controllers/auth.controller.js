@@ -32,19 +32,21 @@ const generateAccessAndRefereshTokens = async (uniqueCode) => {
 
 export const signup = asyncHandler(async (req) => {
 
-  const { Name, Email, Password, PortfolioSlug } = req.body;
+  const { FirstName, LastName, Email, Password, PortfolioSlug } = req.body;
 
   const existingUser = await User.findOne({Email});
 
   if (existingUser) {
     throw new ApiError(
       400,
-      "Email already exists"
+      "Email already exists",
+      ErrorTypes.EMAIL_ALREADY_EXISTS
     );
   }
 
   const user = await User.create({
-      Name,
+      FirstName,
+      LastName,
       Email,
       Password
     });
@@ -53,7 +55,9 @@ export const signup = asyncHandler(async (req) => {
 
   await Portfolio.create({
     UserUniqueCode: user.UniqueCode,
-    Slug: PortfolioSlug.trim()
+    Slug: PortfolioSlug.trim(),
+    FullName: `${FirstName} ${LastName}`,
+    Email: Email
   });
 
   // send email otp here
@@ -76,14 +80,16 @@ export const verifyEmail = asyncHandler(async (req) => {
   if (!user) {
     throw new ApiError(
       404,
-      "User not found"
+      "User not found",
+      ErrorTypes.USER_NOT_FOUND
     );
   }
 
   if (!user.isOtpCorrect(OTP)) {
     throw new ApiError(
       400,
-      "Invalid or expired OTP"
+      "Invalid or expired OTP",
+      ErrorTypes.INVALID_CREDENTIALS
     );
   }
 
@@ -105,6 +111,7 @@ export const verifyEmail = asyncHandler(async (req) => {
 import {
   generateOTP
 } from "../utils/index.js";
+import { ErrorTypes } from "../constants/constants.js";
 
 export const resendOtp = asyncHandler(async (req) => {
 
@@ -115,7 +122,8 @@ export const resendOtp = asyncHandler(async (req) => {
   if (!user) {
     throw new ApiError(
       404,
-      "User not found"
+      "User not found",
+      ErrorTypes.USER_NOT_FOUND
     );
   }
 
@@ -141,7 +149,8 @@ export const login = asyncHandler(async (req, res) => {
   if (!user) {
     throw new ApiError(
       400,
-      "Invalid credentials"
+      "Invalid credentials",
+      ErrorTypes.INVALID_CREDENTIALS
     );
   }
 
@@ -150,14 +159,16 @@ export const login = asyncHandler(async (req, res) => {
   if (!isPasswordCorrect) {
     throw new ApiError(
       400,
-      "Invalid credentials"
+      "Invalid credentials",
+      ErrorTypes.INVALID_CREDENTIALS
     );
   }
 
   if (!user.IsEmailVerified) {
     throw new ApiError(
       400,
-      "Email not verified"
+      "Email not verified",
+      ErrorTypes.EMAIL_NOT_VERIFIED
     );
   }
 
@@ -194,7 +205,8 @@ export const forgotPassword = asyncHandler(async (req) => {
   if (!user) {
     throw new ApiError(
       404,
-      "User not found"
+      "User not found",
+      ErrorTypes.USER_NOT_FOUND
     );
   }
 
@@ -221,14 +233,16 @@ export const resetPassword = asyncHandler(async (req) => {
   if (!user) {
     throw new ApiError(
       404,
-      "User not found"
+      "User not found",
+      ErrorTypes.USER_NOT_FOUND
     );
   }
 
   if (!user.isOtpCorrect(OTP)) {
     throw new ApiError(
       400,
-      "Invalid OTP"
+      "Invalid OTP",
+      ErrorTypes.INVALID_CREDENTIALS
     );
   }
 
@@ -249,7 +263,7 @@ export const logout = asyncHandler(async (req, res) => {
     const user = await User.findOne({ UniqueCode: req.user.UniqueCode });
 
     if (!user) {
-        throw new ApiError(404, "User not found")
+        throw new ApiError(404, "User not found", ErrorTypes.USER_NOT_FOUND)
     }
 
     user.RefreshToken = null;
@@ -273,7 +287,8 @@ export const refreshAccessToken = asyncHandler(async (req) => {
     if (!incomingRefreshToken) {
       throw new ApiError(
         401,
-        "Refresh token is required"
+        "Refresh token is required",
+        ErrorTypes.REFRESH_TOKEN_INVALID_OR_EXPIRED
       );
     }
 
@@ -288,7 +303,8 @@ export const refreshAccessToken = asyncHandler(async (req) => {
     if (!user) {
       throw new ApiError(
         401,
-        "Invalid refresh token"
+        "Invalid refresh token",
+        ErrorTypes.REFRESH_TOKEN_INVALID_OR_EXPIRED
       );
     }
 
