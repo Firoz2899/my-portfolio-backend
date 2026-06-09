@@ -6,7 +6,7 @@ export const MediaSchema = new Schema(
             type: String,
             required: true,
             trim: true,
-            unique: true
+            default: () => generateUniqueCode(UniqueCodePrefixes.MediaSchema)
         },
         OriginalUrl: {
             type: String,

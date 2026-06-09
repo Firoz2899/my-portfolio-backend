@@ -7,7 +7,9 @@ const ReservedSlugSchema = new Schema(
     UniqueCode: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        trim: true,
+        default: () => generateUniqueCode(UniqueCodePrefixes.ReservedSlug)
     },
 
     Slug: {
@@ -30,13 +32,7 @@ const ReservedSlugSchema = new Schema(
 });
 
 ReservedSlugSchema.pre("save", function(next){
-
-    if(!this.UniqueCode){
-        this.UniqueCode =
-            generateUniqueCode(UniqueCodePrefixes.ReservedSlug);
-    }
     this.Slug = this.Slug.trim().toLowerCase();
-    next();
 });
 
 export default model(

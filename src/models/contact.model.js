@@ -8,7 +8,8 @@ const ContactSchema = new mongoose.Schema(
             type: String,
             required: true,
             unique: true,
-            trim: true
+            trim: true,
+            default: () => generateUniqueCode(UniqueCodePrefixes.Contact)
         },
         ProfileUniqueCode: {
             type: String,
@@ -32,15 +33,6 @@ const ContactSchema = new mongoose.Schema(
         timestamps: true
     }
 );
-
-ContactSchema.pre("save", async function (next) {
-
-  if (!this.UniqueCode) {
-    this.UniqueCode = generateUniqueCode(UniqueCodePrefixes.Contact);
-  }
-
-  next();
-});
 
 export default model(
     tableNames.Contacts,

@@ -9,7 +9,8 @@ new Schema(
         type: String,
         required: true,
         unique: true,
-        trim: true
+        trim: true,
+        default: () => generateUniqueCode(UniqueCodePrefixes.Service)
     },
     ProfileUniqueCode: {
         type: String,
@@ -31,15 +32,6 @@ new Schema(
         type: Number,
         default: 0
     }
-});
-
-ServiceSchema.pre("save", async function (next) {
-
-  if (!this.UniqueCode) {
-    this.UniqueCode = generateUniqueCode(UniqueCodePrefixes.Service);
-  }
-
-  next();
 });
 
 export default model(

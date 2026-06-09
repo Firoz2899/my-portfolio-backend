@@ -8,7 +8,8 @@ const ExperienceSchema = new Schema(
             type: String,
             required: true,
             unique: true,
-            trim: true
+            trim: true,
+            default: () => generateUniqueCode(UniqueCodePrefixes.Experience)
         },
         ProfileUniqueCode: {
             type: String,
@@ -28,15 +29,6 @@ const ExperienceSchema = new Schema(
         timestamps: true
     }
 );
-
-ExperienceSchema.pre("save", async function (next) {
-
-  if (!this.UniqueCode) {
-    this.UniqueCode = generateUniqueCode(UniqueCodePrefixes.Experience);
-  }
-
-  next();
-});
 
 export default model(
     tableNames.Experiences,

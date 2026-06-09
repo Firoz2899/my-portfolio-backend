@@ -33,7 +33,8 @@ const UserSchema = new Schema(
     type: String,
     required: true,
     unique: true,
-    trim: true
+    trim: true,
+    default: () => generateUniqueCode(UniqueCodePrefixes.User)
   },
   Role: {
     type: [String],
@@ -59,10 +60,6 @@ const UserSchema = new Schema(
 
 UserSchema.pre("save", async function (next) {
 
-  if (!this.UniqueCode) {
-    this.UniqueCode = generateUniqueCode(UniqueCodePrefixes.User);
-  }
-
   if (this.isModified("Password")) {
     const salt = await bcrypt.genSalt(10);
     this.Password = await bcrypt.hash(this.Password, salt);
@@ -75,8 +72,6 @@ UserSchema.pre("save", async function (next) {
       Date.now() + 10 * 60 * 1000
     );
   }
-
-  next();
 });
 
 UserSchema.methods.isPasswordCorrect = async function (password){

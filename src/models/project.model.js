@@ -9,7 +9,8 @@ const ProjectSchema = new Schema(
             type: String,
             required: true,
             unique: true,
-            trim: true
+            trim: true,
+            default: () => generateUniqueCode(UniqueCodePrefixes.Project)
         },
         ProfileUniqueCode: {
             type: String,
@@ -63,15 +64,6 @@ const ProjectSchema = new Schema(
         timestamps: true
     }
 );
-
-ProjectSchema.pre("save", async function (next) {
-
-  if (!this.UniqueCode) {
-    this.UniqueCode = generateUniqueCode(UniqueCodePrefixes.Project);
-  }
-
-  next();
-});
 
 export default model(
     tableNames.Projects,

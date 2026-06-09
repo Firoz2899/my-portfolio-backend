@@ -8,7 +8,8 @@ const SkillSchema = new Schema(
             type: String,
             required: true,
             unique: true,
-            trim: true
+            trim: true,
+            default: () => generateUniqueCode(UniqueCodePrefixes.Skill)
         },
         ProfileUniqueCode: {
             type: String,
@@ -43,16 +44,5 @@ const SkillSchema = new Schema(
         timestamps: true
     }
 );
-
-
-SkillSchema.pre("save", async function (next) {
-
-  if (!this.UniqueCode) {
-    this.UniqueCode = generateUniqueCode(UniqueCodePrefixes.Skill);
-  }
-
-  next();
-});
-
 
 export default model(tableNames.Skills, SkillSchema);
