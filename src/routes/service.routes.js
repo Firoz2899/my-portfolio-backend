@@ -5,11 +5,11 @@ import {
   updateService,
   deleteService,
   getServiceByCode,
-  getServicesByPortfolio
+  getServicesByProfile
 } from "../controllers/service.controller.js";
 
 import { authenticateUser } from "../middlewares/auth.middleware.js";
-import { getPortfolioCode } from "../middlewares/portfolioCode.middleware.js";
+import { getProfileCode } from "../middlewares/profileCode.middleware.js";
 import {serviceValidation, commonValidation, validate} from '../validator/index.js'
 import {UniqueCodePrefixes} from '../constants/constants.js'  
 
@@ -18,7 +18,7 @@ const router = Router();
 router.post(
   "/",
   authenticateUser,
-  getPortfolioCode,
+  getProfileCode,
   serviceValidation.createServiceValidation(),
   validate,
   createService
@@ -27,7 +27,7 @@ router.post(
 router.put(
   "/:uniqueCode",
   authenticateUser,
-  getPortfolioCode,
+  getProfileCode,
   commonValidation.validateUniqueCode(UniqueCodePrefixes.Service),
   validate,
   updateService
@@ -36,7 +36,7 @@ router.put(
 router.delete(
   "/:uniqueCode",
   authenticateUser,
-  getPortfolioCode,
+  getProfileCode,
   commonValidation.validateUniqueCode(UniqueCodePrefixes.Service),
   validate,
   deleteService
@@ -44,16 +44,16 @@ router.delete(
 
 router.get(
   "/details/:uniqueCode",
-  getPortfolioCode,
+  getProfileCode,
   commonValidation.validateUniqueCode(UniqueCodePrefixes.Service),
   validate,
   getServiceByCode
 );
 
 router.get(
-  "/portfolio-services",
-  getPortfolioCode,
-  getServicesByPortfolio
+  "/profile-services",
+  getProfileCode,
+  getServicesByProfile
 );
 
 export default router;

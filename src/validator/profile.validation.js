@@ -1,6 +1,6 @@
 import { body, param } from "express-validator";
 
-export const updatePortfolioValidation = () => [
+export const updateProfileValidation = () => [
 
     body("FullName")
         .optional()
@@ -42,7 +42,7 @@ export const updatePortfolioValidation = () => [
         .withMessage("Invalid Github URL")
 ];
 
-export const updatePortfolioSlugValidation = () => [
+export const updateProfileSlugValidation = () => [
     param("slug")
         .trim()
         .notEmpty()

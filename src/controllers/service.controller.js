@@ -1,6 +1,4 @@
 import Service from "../models/service.model.js";
-import Portfolio from "../models/portfolio.model.js";
-
 import {
   ApiError,
   ApiResponse,
@@ -19,7 +17,7 @@ export const createService = asyncHandler(async (req) => {
 
   const service =
     await Service.create({
-      PortfolioUniqueCode: req.portfolioCode,
+      ProfileUniqueCode: req.profileCode,
       Title,
       Description,
       Icon
@@ -39,7 +37,7 @@ export const updateService = asyncHandler(async (req) => {
   const service =
     await Service.findOne({
       UniqueCode: uniqueCode,
-      PortfolioUniqueCode: req.portfolioCode
+      ProfileUniqueCode: req.profileCode
     });
 
   if (!service) {
@@ -69,8 +67,8 @@ export const deleteService = asyncHandler(async (req) => {
   const { uniqueCode } = req.params;
 
   const service = await Service.findOneAndDelete({
-      UniqueCode: service.PortfolioUniqueCode,
-      PortfolioUniqueCode: req.portfolioCode
+      UniqueCode: service.ProfileUniqueCode,
+      ProfileUniqueCode: req.profileCode
   });
 
   if (!service) {
@@ -95,7 +93,7 @@ export const getServiceByCode = asyncHandler(async (req) => {
   const service =
     await Service.findOne({
       UniqueCode: uniqueCode,
-      PortfolioUniqueCode: req.portfolioCode
+      ProfileUniqueCode: req.profileCode
     });
 
   if (!service) {
@@ -112,9 +110,9 @@ export const getServiceByCode = asyncHandler(async (req) => {
   );
 });
 
-export const getServicesByPortfolio = asyncHandler(async (req) => {
+export const getServicesByProfile = asyncHandler(async (req) => {
 
-  const services = await Service.find({PortfolioUniqueCode: req.portfolioCode});
+  const services = await Service.find({ProfileUniqueCode: req.profileCode});
 
   return new ApiResponse(
     200,

@@ -1,47 +1,51 @@
-import Portfolio from "../models/portfolio.model.js";
+import ProfileModal from "../models/profile.model.js";
 import Project from "../models/project.model.js";
 import {ReservedSlugTypes, ErrorTypes} from '../constants/constants.js'
 import { ApiResponse, asyncHandler, escapedSlug } from "../utils/index.js";
 
 export const checkSlugAvailability = asyncHandler(async (req) => {
 
-    const { slug, slugType } = req.body;
-    let isAvailable = false;
+    const { Slug, SlugType } = req.body;
+    let slugExists = false;
 
-    if(slugType.trim().toUpperCase() === ReservedSlugTypes.PORTFOLIO){
-        const portfolio = await Portfolio.findOne({
+    if(SlugType.trim().toUpperCase() === ReservedSlugTypes.PROFILE){
+        const profile = await ProfileModal.findOne({
             Slug: {
-                $regex: `^${escapedSlug(slug.trim())}$`,
+                $regex: `^${escapedSlug(Slug.trim())}$`,
                 $options: "i"
             }
         });
 
-        if(portfolio)
-            isAvailable = true;
+        if(profile)
+            slugExists = true;
     }
 
-    if(slugType.trim().toUpperCase() === ReservedSlugTypes.PROJECT){
+    if(SlugType.trim().toUpperCase() === ReservedSlugTypes.PROJECT){
         const project = await Project.findOne({
             Slug: {
-                $regex: `^${escapedSlug(slug.trim())}$`,
+                $regex: `^${escapedSlug(Slug.trim())}$`,
                 $options: "i"
             }
         });
 
         if(project)
-            isAvailable = true;
+            slugExists = true;
     }
 
 
     return new ApiResponse(
         200,
         {
-            Slug: slug,
-            IsAvailable: isAvailable
+            Slug: Slug,
+            Exists: slugExists,
+            IsAvailable: !slugExists
         },
-        isAvailable
+        slugExists
             ? "Slug already exists"
-            : "Slug is available"
+            : "Slug is available",
+        null,
+        true,
+        slugExists ? ErrorTypes.RESOURCE_ALREADY_EXISTS : null
     );
 });
 

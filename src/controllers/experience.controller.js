@@ -1,5 +1,4 @@
 import Experience from "../models/experience.model.js";
-import Portfolio from "../models/portfolio.model.js";
 import {ErrorTypes} from '../constants/constants.js'
 
 import {
@@ -20,7 +19,7 @@ export const createExperience = asyncHandler(async (req) => {
 
   const experience =
     await Experience.create({
-      PortfolioUniqueCode: req.portfolioCode,
+      ProfileUniqueCode: req.profileCode,
       Company,
       Designation,
       StartDate,
@@ -42,7 +41,7 @@ export const updateExperience = asyncHandler(async (req) => {
   const experience =
     await Experience.findOne({
       UniqueCode: uniqueCode,
-      PortfolioUniqueCode: req.portfolioCode
+      ProfileUniqueCode: req.profileCode
     });
 
   if (!experience) {
@@ -73,7 +72,7 @@ export const deleteExperience = asyncHandler(async (req) => {
 
   const experience = await Experience.findOneAndDelete({
     UniqueCode: uniqueCode,
-    PortfolioUniqueCode: req.portfolioCode
+    ProfileUniqueCode: req.profileCode
   });
 
   if(!experience){
@@ -98,7 +97,7 @@ export const getExperienceByCode = asyncHandler(async (req) => {
   const experience =
     await Experience.findOne({
       UniqueCode: uniqueCode,
-      PortfolioUniqueCode: req.portfolioCode
+      ProfileUniqueCode: req.profileCode
     });
 
   if (!experience) {
@@ -117,7 +116,7 @@ export const getExperienceByCode = asyncHandler(async (req) => {
 
 export const getAllExperiences = asyncHandler(async (req) => {
 
-  const experiences = await Experience.find({PortfolioUniqueCode: req.portfolioCode})
+  const experiences = await Experience.find({ProfileUniqueCode: req.profileCode})
     .sort({
       StartDate: -1
     });

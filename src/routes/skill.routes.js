@@ -5,12 +5,12 @@ import {
   updateSkill,
   deleteSkill,
   getSkillByCode,
-  getSkillsByPortfolio
+  getSkillsByProfile
 }
 from "../controllers/skill.controller.js";
 
 import { authenticateUser } from "../middlewares/auth.middleware.js";
-import { getPortfolioCode } from "../middlewares/portfolioCode.middleware.js";
+import { getProfileCode } from "../middlewares/profileCode.middleware.js";
 import { skillValidation, validate, commonValidation } from "../validator/index.js";
 import {UniqueCodePrefixes} from '../constants/constants.js'
 
@@ -19,7 +19,7 @@ const router = Router();
 router.post(
   "/",
   authenticateUser,
-  getPortfolioCode,
+  getProfileCode,
   skillValidation.createSkillValidation(),
   validate,
   createSkill
@@ -28,7 +28,7 @@ router.post(
 router.put(
   "/:uniqueCode",
     authenticateUser,
-    getPortfolioCode,
+    getProfileCode,
     commonValidation.validateUniqueCode(UniqueCodePrefixes.Skill),
     validate,
   updateSkill
@@ -37,7 +37,7 @@ router.put(
 router.delete(
   "/:uniqueCode",
   authenticateUser,
-  getPortfolioCode,
+  getProfileCode,
   commonValidation.validateUniqueCode(UniqueCodePrefixes.Skill),
   validate,
   deleteSkill
@@ -45,16 +45,16 @@ router.delete(
 
 router.get(
   "/details/:uniqueCode",
-  getPortfolioCode,
+  getProfileCode,
   commonValidation.validateUniqueCode(UniqueCodePrefixes.Skill),
   validate,
   getSkillByCode
 );
 
 router.get(
-  "/portfolio-skills",
-  getPortfolioCode,
-  getSkillsByPortfolio
+  "/profile-skills",
+  getProfileCode,
+  getSkillsByProfile
 );
 
 export default router;

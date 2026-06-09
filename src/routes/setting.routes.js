@@ -2,8 +2,8 @@ import { Router } from "express";
 
 import {
     getSiteSettings,
-    updateDefaultPortfolio,
-    deleteDefaultPortfolio
+    updateDefaultProfile,
+    deleteDefaultProfile
 }
 from "../controllers/setting.controller.js";
 
@@ -25,21 +25,21 @@ router.get(
 );
 
 router.put(
-    "/:portfolioCode",
+    "/:profileCode",
     authenticateUser,
     superAdminRoleAuth,
-    commonValidation.validateUniqueCode(UniqueCodePrefixes.Portfolio, "portfolioCode"),
+    commonValidation.validateUniqueCode(UniqueCodePrefixes.Profile, "profileCode"),
     validate,
-    updateDefaultPortfolio
+    updateDefaultProfile
 );
 
 router.delete(
-    "/:portfolioCode",
+    "/:profileCode",
     authenticateUser,
     superAdminRoleAuth,
-    commonValidation.validateUniqueCode(UniqueCodePrefixes.Portfolio, "portfolioCode"),
+    commonValidation.validateUniqueCode(UniqueCodePrefixes.Profile, "profileCode"),
     validate,
-    deleteDefaultPortfolio
+    deleteDefaultProfile
 );
 
 export default router;

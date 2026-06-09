@@ -1,6 +1,6 @@
 export const tableNames = Object.freeze({
     User: "Users",
-    Portfolios: "Portfolios",
+    Profiles: "Profiles",
     Experiences: "Experiences",
     Skills: "Skills",
     Services: "Services",
@@ -16,14 +16,14 @@ export const Roles = Object.freeze({
 })
 
 export const ReservedSlugTypes = Object.freeze({
-    PORTFOLIO: "PORTFOLIO",
+    PROFILE: "PROFILE",
     PROJECT: "PROJECT"
 })
 
 export const CloudinaryFolders = Object.freeze({
-    Portfolio: Object.freeze({
-        ProfilePictures: "portfolio/profile-images",
-        CoverPictures: "portfolio/cover-images"
+    Profile: Object.freeze({
+        ProfilePictures: "profile/profile-images",
+        CoverPictures: "profile/cover-images"
     }),
     Project: Object.freeze({
         ProjectImages: "project/project-images",
@@ -40,7 +40,7 @@ export const regex = Object.freeze({
 export const UniqueCodePrefixes = Object.freeze({
     Contact: "CNT",
     Experience: "EXP",
-    Portfolio: "POR",
+    Profile: "PRF",
     Project: "PRJ",
     ReservedSlug: "RSL",
     Media: "MED",

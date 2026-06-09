@@ -1,5 +1,4 @@
 import Skill from "../models/skill.model.js";
-import Portfolio from "../models/portfolio.model.js";
 import {
   ApiError,
   ApiResponse,
@@ -28,7 +27,7 @@ export const createSkill = asyncHandler(async (req) => {
   }
 
   const skill = await Skill.create({
-    PortfolioUniqueCode: req.portfolioCode,
+    ProfileUniqueCode: req.profileCode,
     Title,
     Category,
     Percentage,
@@ -51,7 +50,7 @@ export const updateSkill = asyncHandler(async (req) => {
 
   const skill = await Skill.findOne({
     UniqueCode: uniqueCode,
-    PortfolioUniqueCode: req.portfolioCode
+    ProfileUniqueCode: req.profileCode
   });
 
   if (!skill) {
@@ -80,7 +79,7 @@ export const deleteSkill = asyncHandler(async (req) => {
 
   const deletedSkill = await Skill.findOneAndDelete({
     UniqueCode: uniqueCode,
-    PortfolioUniqueCode: req.portfolioCode
+    ProfileUniqueCode: req.profileCode
   });
 
   if (!deletedSkill) {
@@ -104,7 +103,7 @@ export const getSkillByCode = asyncHandler(async (req) => {
 
   const skill = await Skill.findOne({
     UniqueCode: uniqueCode,
-    PortfolioUniqueCode: req.portfolioCode
+    ProfileUniqueCode: req.profileCode
   });
 
   if (!skill) {
@@ -121,11 +120,11 @@ export const getSkillByCode = asyncHandler(async (req) => {
   );
 });
 
-export const getSkillsByPortfolio = asyncHandler(async (req) => {
+export const getSkillsByProfile = asyncHandler(async (req) => {
 
   const skills =
     await Skill.find({
-      PortfolioUniqueCode: req.portfolioCode
+      ProfileUniqueCode: req.profileCode
     })
     .sort({
       SortOrder: 1

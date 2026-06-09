@@ -1,22 +1,22 @@
 import { Router } from "express";
 
 import {
-    getPortfolio,
-    updatePortfolio,
+    getProfile,
+    updateProfile,
     uploadProfileImage,
     uploadCoverImage,
     deleteProfileImage,
     deleteCoverImage,
-    getPortfolioBySlug,
-    updatePortfolioSlug,
-    getDefaultPortfolio
+    getProfileBySlug,
+    updateProfileSlug,
+    getDefaultProfile
 }
-from "../controllers/portfolio.controller.js";
+from "../controllers/profile.controller.js";
 
 import { authenticateUser } from "../middlewares/auth.middleware.js";
 
 import {uploadImageInMemory} from "../utils/fileService.js"
-import { commonValidation, portfolioValidation, validate } from "../validator/index.js";
+import { commonValidation, profileValidation, validate } from "../validator/index.js";
 import {UniqueCodePrefixes} from '../constants/constants.js'
 
 const router = Router();
@@ -30,14 +30,14 @@ const router = Router();
 
 router.get(
     "/slug/:slug",
-    portfolioValidation.updatePortfolioSlugValidation(),
+    profileValidation.updateProfileSlugValidation(),
     validate,
-    getPortfolioBySlug
+    getProfileBySlug
 );
 
 router.get(
-    "/default-portfolio",
-    getDefaultPortfolio
+    "/default-profile",
+    getDefaultProfile
 );
 
 /*
@@ -49,23 +49,23 @@ router.get(
 router.get(
     "/",
     authenticateUser,
-    getPortfolio
+    getProfile
 );
 
 router.put(
     "/",
     authenticateUser,
-    portfolioValidation.updatePortfolioValidation(),
+    profileValidation.updateProfileValidation(),
     validate,
-    updatePortfolio
+    updateProfile
 );
 
 router.put(
     "/slug/:slug",
     authenticateUser,
-    portfolioValidation.updatePortfolioSlugValidation(),
+    profileValidation.updateProfileSlugValidation(),
     validate,
-    updatePortfolioSlug
+    updateProfileSlug
 );
 
 /*

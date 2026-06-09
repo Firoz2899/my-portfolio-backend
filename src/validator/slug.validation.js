@@ -1,5 +1,6 @@
 import { body, param } from "express-validator";
 
+
 export const createReservedSlugValidation = () => [
 
     body("Slug")
@@ -10,7 +11,7 @@ export const createReservedSlugValidation = () => [
         .notEmpty()
         .withMessage("SlugType is required")
         .isIn([
-            "PORTFOLIO",
+            "PROFILE",
             "PROJECT"
         ])
 ];
@@ -24,7 +25,7 @@ export const updateReservedSlugValidation = () => [
         .notEmpty()
         .withMessage("SlugType is required")
         .isIn([
-            "PORTFOLIO",
+            "PROFILE",
             "PROJECT"
         ]),
 

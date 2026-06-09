@@ -24,10 +24,10 @@ export const signUpValidation = () => [
         .isLength({ min: 6 })
         .withMessage("Password must be at least 6 characters"),
 
-    body("PortfolioSlug")
+    body("ProfileSlug")
         .trim()
         .notEmpty()
-        .withMessage("Portfolio Slug is required")
+        .withMessage("Profile Slug is required")
 ];
 
 export const verifyEmailValidation = () => [

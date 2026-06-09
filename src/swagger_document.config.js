@@ -14,11 +14,11 @@ let finalSwaggerFile = file?.replace(
 )
 finalSwaggerFile = finalSwaggerFile?.replace(
   "${{title}}",
-  "Portfolio Apis Docs"
+  "Profile Apis Docs"
 )
 finalSwaggerFile = finalSwaggerFile?.replace(
   "${{description}}",
-  "API documentation for the Portfolio application"
+  "API documentation for the Profile application"
 )
 const swaggerDocument = YAML.parse(
   finalSwaggerFile

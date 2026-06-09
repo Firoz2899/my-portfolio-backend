@@ -2,7 +2,7 @@
 import { ApiError, asyncHandler } from "../utils/index.js";
 import {ErrorTypes} from '../constants/constants.js'
 
-export const authenticateRole = (...roles) => asyncHandler(async (req, res, next) => {
+export const authenticateRole = (...allowedRoles) => asyncHandler(async (req, res, next) => {
     try {
         const user = req.user;
 
@@ -10,7 +10,13 @@ export const authenticateRole = (...roles) => asyncHandler(async (req, res, next
             throw new ApiError(401, "Unauthorized request", ErrorTypes.UNAUTHORIZED)
         }
 
-        if (!roles.includes(req.user.Role)) {
+        const userRoles = Array.isArray(user.Role) ? user.Role : [];
+
+        const hasAccess = userRoles.some(role =>
+            allowedRoles.includes(role)
+        );
+
+        if (!hasAccess) {
             throw new ApiError(403, "Access denied", ErrorTypes.ACCESS_DENIED)
         }
         next()

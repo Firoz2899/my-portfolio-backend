@@ -1,10 +1,13 @@
 import User from "../models/user.model.js";
-import Portfolio from "../models/portfolio.model.js";
 import {
   ApiError,
   ApiResponse,
-  asyncHandler
+  asyncHandler,
+  generateOTP
 } from "../utils/index.js";
+import { ErrorTypes } from "../constants/constants.js";
+import ProfileModel from "../models/profile.model.js";
+
 
 const cookieOptions = {
     httpOnly: true,
@@ -32,7 +35,7 @@ const generateAccessAndRefereshTokens = async (uniqueCode) => {
 
 export const signup = asyncHandler(async (req) => {
 
-  const { FirstName, LastName, Email, Password, PortfolioSlug } = req.body;
+  const { FirstName, LastName, Email, Password, ProfileSlug } = req.body;
 
   const existingUser = await User.findOne({Email});
 
@@ -53,9 +56,9 @@ export const signup = asyncHandler(async (req) => {
 
   await user.save();
 
-  await Portfolio.create({
+  await ProfileModel.create({
     UserUniqueCode: user.UniqueCode,
-    Slug: PortfolioSlug.trim(),
+    Slug: ProfileSlug.trim(),
     FullName: `${FirstName} ${LastName}`,
     Email: Email
   });
@@ -107,11 +110,6 @@ export const verifyEmail = asyncHandler(async (req) => {
     "Email verified successfully"
   );
 });
-
-import {
-  generateOTP
-} from "../utils/index.js";
-import { ErrorTypes } from "../constants/constants.js";
 
 export const resendOtp = asyncHandler(async (req) => {
 
@@ -183,13 +181,13 @@ export const login = asyncHandler(async (req, res) => {
         new ApiResponse(
             200, 
             {
-                tokens,
-                user: {
-                    Name: user.Name,
-                    Email: user.Email,
-                    Role: user.Role,
-                    UniqueCode: user.UniqueCode
-                }
+              tokens,
+              user: {
+                Name: user.Name,
+                Email: user.Email,
+                Role: user.Role,
+                UniqueCode: user.UniqueCode
+              }
             }, 
             "Login successful"
         )

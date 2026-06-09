@@ -36,9 +36,9 @@ const UserSchema = new Schema(
     trim: true
   },
   Role: {
-    type: String,
+    type: [String],
     enum: Object.values(Roles),
-    default: Roles.USER
+    default: [Roles.USER]
   },
   IsActive: {
     type: Boolean,

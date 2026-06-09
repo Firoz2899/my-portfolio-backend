@@ -13,7 +13,7 @@ import {generateUniqueCode} from '../utils/helpers.js'
 export const createProject = asyncHandler(async (req) => {
 
     const project = await Project.create({
-        PortfolioUniqueCode: req.portfolioCode,
+        ProfileUniqueCode: req.profileCode,
         ...req.body
     });
 
@@ -30,7 +30,7 @@ export const updateProject = asyncHandler(async (req) => {
 
     const project = await Project.findOne({
         UniqueCode: uniqueCode,
-        PortfolioUniqueCode: req.portfolioCode
+        ProfileUniqueCode: req.profileCode
     })
 
     if(!project)
@@ -51,7 +51,7 @@ export const uploadProjectImages = asyncHandler(async (req) => {
 
     const project = await Project.findOne({
         UniqueCode: projectCode,
-        PortfolioUniqueCode: req.portfolioCode
+        ProfileUniqueCode: req.profileCode
     });
 
     if(!project){
@@ -94,7 +94,7 @@ export const replaceProjectImage = asyncHandler(async (req) => {
 
     const project = await Project.findOne({
         UniqueCode: projectCode,
-        PortfolioUniqueCode: req.portfolioCode
+        ProfileUniqueCode: req.profileCode
     });
 
     if (!project) {
@@ -153,7 +153,7 @@ export const uploadCoverImage = asyncHandler(async (req) => {
 
     const project = await Project.findOne({
         UniqueCode: projectCode,
-        PortfolioUniqueCode: req.portfolioCode
+        ProfileUniqueCode: req.profileCode
     });
 
     if(!project){
@@ -192,7 +192,7 @@ export const deleteProjectImage = asyncHandler(async (req) => {
 
     const project = await Project.findOne({
         UniqueCode: projectCode,
-        PortfolioUniqueCode: req.portfolioCode
+        ProfileUniqueCode: req.profileCode
     });
 
     if(!project){
@@ -230,7 +230,7 @@ export const updateProjectSlug = asyncHandler(async (req) => {
     const { UniqueCode, slug } = req.body;
     const project = await Project.findOne({
         UniqueCode,
-        PortfolioUniqueCode: req.portfolioCode
+        ProfileUniqueCode: req.profileCode
     });
 
     if(!project){
@@ -258,7 +258,7 @@ export const getProjectByCode = asyncHandler(async (req) => {
 
     const project = await Project.findOne({
         UniqueCode: projectCode,
-        PortfolioUniqueCode: req.portfolioCode
+        ProfileUniqueCode: req.profileCode
     });
 
     if(!project){
@@ -279,7 +279,7 @@ export const getProjectByCode = asyncHandler(async (req) => {
 export const getAllProjects = asyncHandler(async (req) => {
 
     const projects = await Project
-        .find({ PortfolioUniqueCode: req.portfolioCode })
+        .find({ ProfileUniqueCode: req.profileCode })
         .sort({
             IsFeatured: -1,
             createdAt: -1
@@ -324,7 +324,7 @@ export const deleteProject = asyncHandler(async (req) => {
 
     const project = await Project.findOne({
         UniqueCode: projectCode,
-        PortfolioUniqueCode: req.portfolioCode
+        ProfileUniqueCode: req.profileCode
     });
 
     if(!project){
@@ -353,7 +353,7 @@ export const deleteProject = asyncHandler(async (req) => {
 
     const deletedProject = await Project.findOneAndDelete({
         UniqueCode: projectCode,
-        PortfolioUniqueCode: req.portfolioCode
+        ProfileUniqueCode: req.profileCode
     });
 
     if(!deletedProject){

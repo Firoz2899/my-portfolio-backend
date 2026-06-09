@@ -14,9 +14,13 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const allowedOrigins = [
+  "http://localhost:5173"
+];
+
 //#region basic app Middelware
 app.use(express.json({limit: "16kb"}));
-app.use(cors({origin: "*", credentials: true}));
+app.use(cors({origin: allowedOrigins, credentials: true}));
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(express.static(path.join(__dirname, './public')));
 app.use(cookieParser());
@@ -30,7 +34,7 @@ app.use(
     swaggerOptions: {
       docExpansion: "none", // keep all the sections collapsed by default
     },
-    customSiteTitle: "Portfolio apis docs",
+    customSiteTitle: "Profile apis docs",
   })
 );
 //#endregion
@@ -44,7 +48,7 @@ app.use("/api/v1/experiences", routes.experienceRoutes);
 app.use("/api/v1/services", routes.serviceRoutes);
 app.use("/api/v1/projects", routes.projectRoutes);
 app.use("/api/v1/slugs", routes.slugRoutes);
-app.use("/api/v1/portfolios", routes.portfolioRoutes);
+app.use("/api/v1/profiles", routes.profileRoutes);
 app.use("/api/v1/settings", routes.settingRoutes);
 //#endregion
 

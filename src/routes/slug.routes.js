@@ -9,7 +9,7 @@ import {
   getReservedSlugByCode
 } from "../controllers/slug.controller.js";
 
-import { getPortfolioCode } from "../middlewares/portfolioCode.middleware.js";
+import { getProfileCode } from "../middlewares/profileCode.middleware.js";
 import { validateSlug } from "../middlewares/slug.middleware.js";
 import { authenticateUser } from "../middlewares/auth.middleware.js";
 import { authenticateRole } from "../middlewares/role.middleware.js";

@@ -16,7 +16,7 @@ export default cloudinary;
 
 export const uploadToCloudinary = async (
     file,
-    folder = CloudinaryFolders.Portfolio.ProfilePictures
+    folder = CloudinaryFolders.Profile.ProfilePictures
 ) => {
 
     return new Promise((resolve, reject) => {

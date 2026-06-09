@@ -22,7 +22,7 @@ export const handleError = (err, req, res, next) => {
 
   const response = {
     IsSuccess: false,
-    statusCode: statusCode,
+    statusCode: error.statusCode,
     Message: error.message,
     Data: error.data,
     Errors: error.errors,

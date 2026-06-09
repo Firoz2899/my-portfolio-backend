@@ -3,7 +3,7 @@ import { generateUniqueCode } from "../utils/helpers.js";
 import {MediaSchema} from "./media.model.js";
 import {tableNames, UniqueCodePrefixes} from '../constants/constants.js'
 
-const PortfolioSchema = new Schema(
+const ProfileSchema = new Schema(
 {
     UniqueCode: {
         type: String,
@@ -61,10 +61,10 @@ const PortfolioSchema = new Schema(
 });
 
 
-PortfolioSchema.pre("save", async function (next) {
+ProfileSchema.pre("save", async function (next) {
 
   if (!this.UniqueCode) {
-    this.UniqueCode = generateUniqueCode(UniqueCodePrefixes.Portfolio);
+    this.UniqueCode = generateUniqueCode(UniqueCodePrefixes.Profile);
   }
 
   next();
@@ -72,6 +72,6 @@ PortfolioSchema.pre("save", async function (next) {
 
 
 export default model(
-    tableNames.Portfolios,
-    PortfolioSchema
+    tableNames.Profiles,
+    ProfileSchema
 );

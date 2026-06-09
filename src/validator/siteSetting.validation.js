@@ -1,7 +1,7 @@
 import { param } from "express-validator";
 
-export const updateDefaultPortfolioValidation = () => [
-    param("portfolioCode")
+export const updateDefaultProfileValidation = () => [
+    param("profileCode")
         .notEmpty()
-        .withMessage("Portfolio code is required")
+        .withMessage("Profile code is required")
 ];

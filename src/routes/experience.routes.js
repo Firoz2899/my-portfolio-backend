@@ -9,7 +9,7 @@ import {
 } from "../controllers/experience.controller.js";
 
 import { authenticateUser } from "../middlewares/auth.middleware.js";
-import { getPortfolioCode } from "../middlewares/portfolioCode.middleware.js";
+import { getProfileCode } from "../middlewares/profileCode.middleware.js";
 import { experienceValidation, validate, commonValidation } from "../validator/index.js";
 import {UniqueCodePrefixes} from '../constants/constants.js'
     
@@ -18,7 +18,7 @@ const router = Router();
 router.post(
   "/",
   authenticateUser,
-  getPortfolioCode,
+  getProfileCode,
   experienceValidation.createExperienceValidation(),
   validate,
   createExperience
@@ -27,7 +27,7 @@ router.post(
 router.put(
   "/:uniqueCode",
   authenticateUser,
-  getPortfolioCode,
+  getProfileCode,
   commonValidation.validateUniqueCode(UniqueCodePrefixes.Experience),
   validate,
   updateExperience
@@ -36,7 +36,7 @@ router.put(
 router.delete(
   "/:uniqueCode",
   authenticateUser,
-  getPortfolioCode,
+  getProfileCode,
   commonValidation.validateUniqueCode(UniqueCodePrefixes.Experience),
   validate,
   deleteExperience
@@ -44,15 +44,15 @@ router.delete(
 
 router.get(
   "/details/:uniqueCode",
-  getPortfolioCode,
+  getProfileCode,
   commonValidation.validateUniqueCode(UniqueCodePrefixes.Experience),
   validate,
   getExperienceByCode
 );
 
 router.get(
-  "/portfolio-experiences",
-  getPortfolioCode,
+  "/profile-experiences",
+  getProfileCode,
   getAllExperiences
 );
 

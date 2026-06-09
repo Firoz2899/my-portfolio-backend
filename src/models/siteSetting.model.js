@@ -2,7 +2,7 @@ import {Schema, model} from 'mongoose';
 import {tableNames} from '../constants/constants.js'
 
 const SiteSettingSchema = new Schema({
-    DefaultPortfolioUniqueCode: {
+    DefaultProfileUniqueCode: {
         type: String,
         required: true
     }

@@ -14,7 +14,7 @@ export const validate = asyncHandler((req, res, next) => {
 //#region FileValidation
 export * as commonValidation from './common.validation.js'
 export * as authValidation from './auth.validation.js'
-export * as portfolioValidation from "./portfolio.validation.js";
+export * as profileValidation from "./profile.validation.js";
 export * as skillValidation from "./skill.validation.js";
 export * as experienceValidation from "./experience.validation.js";
 export * as serviceValidation from "./service.validation.js";

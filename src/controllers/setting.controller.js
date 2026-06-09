@@ -16,7 +16,7 @@ export const getSiteSettings = asyncHandler(async () => {
 
         settings =
             await SiteSettingModel.create({
-                DefaultPortfolioUniqueCode: ""
+                DefaultProfileUniqueCode: ""
             });
     }
 
@@ -26,20 +26,20 @@ export const getSiteSettings = asyncHandler(async () => {
     );
 });
 
-import Portfolio from "../models/portfolio.model.js";
+import ProfileModel from "../models/profile.model.js";
 
-export const updateDefaultPortfolio = asyncHandler(async (req) => {
+export const updateDefaultProfile = asyncHandler(async (req) => {
 
-    const { portfolioCode } = req.params;
+    const { profileCode } = req.params;
 
-    const portfolio = await Portfolio.findOne({
-        UniqueCode: portfolioCode
+    const profile = await ProfileModel.findOne({
+        UniqueCode: profileCode
     });
 
-    if (!portfolio) {
+    if (!profile) {
         throw new ApiError(
             404,
-            "Portfolio not found",
+            "Profile not found",
             ErrorTypes.NOT_FOUND
         );
     }
@@ -48,10 +48,10 @@ export const updateDefaultPortfolio = asyncHandler(async (req) => {
 
     if (!settings) {
         settings = await SiteSettingModel.create({
-            DefaultPortfolioUniqueCode: portfolioCode
+            DefaultProfileUniqueCode: profileCode
         });
     } else {
-        settings.DefaultPortfolioUniqueCode = portfolioCode;
+        settings.DefaultProfileUniqueCode = profileCode;
 
         await settings.save();
     }
@@ -59,21 +59,21 @@ export const updateDefaultPortfolio = asyncHandler(async (req) => {
     return new ApiResponse(
         200,
         settings,
-        "Default portfolio updated successfully"
+        "Default profile updated successfully"
     );
 });
 
-export const deleteDefaultPortfolio = asyncHandler(async (req) => {
+export const deleteDefaultProfile = asyncHandler(async (req) => {
 
     const settings = await SiteSettingModel.findOneAndDelete({});
 
     if (!settings) {
-        throw new ApiError(404, "Default portfolio not found", ErrorTypes.NOT_FOUND);
+        throw new ApiError(404, "Default profile not found", ErrorTypes.NOT_FOUND);
     }
     
     return new ApiResponse(
         200,
         result,
-        "Default portfolio deleted successfully"
+        "Default profile deleted successfully"
     );
 });

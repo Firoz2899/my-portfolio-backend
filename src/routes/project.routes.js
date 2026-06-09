@@ -17,7 +17,7 @@ from "../controllers/project.controller.js";
 
 import { authenticateUser } from "../middlewares/auth.middleware.js";
 
-import { getPortfolioCode } from "../middlewares/portfolioCode.middleware.js";
+import { getProfileCode } from "../middlewares/profileCode.middleware.js";
 
 import { uploadImageInMemory } from "../utils/fileService.js";
 
@@ -31,7 +31,7 @@ const router = Router();
 router.post(
     "/",
     authenticateUser,
-    getPortfolioCode,
+    getProfileCode,
     projectValidation.createProjectValidation(),
     validate,
     createProject
@@ -40,7 +40,7 @@ router.post(
 router.put(
     "/:projectCode",
     authenticateUser,
-    getPortfolioCode,
+    getProfileCode,
     uniqueCodeValidation,
     validate,
     updateProject
@@ -49,7 +49,7 @@ router.put(
 router.delete(
     "/:projectCode",
     authenticateUser,
-    getPortfolioCode,
+    getProfileCode,
     uniqueCodeValidation,
     validate,
     deleteProject
@@ -57,15 +57,15 @@ router.delete(
 
 router.get(
     "/details/:projectCode",
-    getPortfolioCode,
+    getProfileCode,
     uniqueCodeValidation,
     validate,
     getProjectByCode
 );
 
 router.get(
-    "/portfolio-projects",
-    getPortfolioCode,
+    "/profile-projects",
+    getProfileCode,
     getAllProjects
 );
 
@@ -77,7 +77,7 @@ router.get(
 router.post(
     "/:projectCode/upload-cover",
     authenticateUser,
-    getPortfolioCode,
+    getProfileCode,
     uploadImageInMemory.single("image"),
     uploadCoverImage
 );
@@ -85,7 +85,7 @@ router.post(
 router.post(
     "/:projectCode/upload-images",
     authenticateUser,
-    getPortfolioCode,
+    getProfileCode,
     uploadImageInMemory.array("images", 20),
     uploadProjectImages
 );
@@ -93,7 +93,7 @@ router.post(
 router.post(
     "/:projectCode/update-slug",
     authenticateUser,
-    getPortfolioCode,
+    getProfileCode,
     projectValidation.updateProjectSlugValidation(),
     validate,
     updateProjectSlug
@@ -102,7 +102,7 @@ router.post(
 router.put(
     "/:projectCode/images/:imageCode/replace",
     authenticateUser,
-    getPortfolioCode,
+    getProfileCode,
     uploadImageInMemory.single("image"),
     replaceProjectImage
 );
@@ -110,7 +110,7 @@ router.put(
 router.delete(
     "/:projectCode/images/:imageCode",
     authenticateUser,
-    getPortfolioCode,
+    getProfileCode,
     deleteProjectImage
 );
 

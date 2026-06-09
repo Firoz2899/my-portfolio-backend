@@ -11,7 +11,7 @@ new Schema(
         unique: true,
         trim: true
     },
-    PortfolioUniqueCode: {
+    ProfileUniqueCode: {
         type: String,
         required: true
     },

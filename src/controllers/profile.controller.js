@@ -1,4 +1,3 @@
-import Portfolio from "../models/portfolio.model.js";
 import {
     ApiError,
     ApiResponse,
@@ -10,13 +9,14 @@ import {
 } from "../utils/index.js";
 import {tableNames, CloudinaryFolders, UniqueCodePrefixes, ErrorTypes} from '../constants/constants.js'
 import SiteSettingModel from "../models/siteSetting.model.js";
+import ProfileModel from "../models/profile.model.js";
 
-const getPortfolioCommonAggregatePipeline = (forPublic = false) => [
+const getProfileCommonAggregatePipeline = (forPublic = false) => [
     {
         $lookup: {
             from: tableNames.Skills,
             localField: "UniqueCode",
-            foreignField: "PortfolioUniqueCode",
+            foreignField: "ProfileUniqueCode",
             as: "Skills",
             pipeline: [
                 {
@@ -31,7 +31,7 @@ const getPortfolioCommonAggregatePipeline = (forPublic = false) => [
         $lookup: {
             from: tableNames.Experiences,
             localField: "UniqueCode",
-            foreignField: "PortfolioUniqueCode",
+            foreignField: "ProfileUniqueCode",
             as: "Experiences",
             pipeline: [
                 {
@@ -46,7 +46,7 @@ const getPortfolioCommonAggregatePipeline = (forPublic = false) => [
         $lookup: {
             from: tableNames.Services,
             localField: "UniqueCode",
-            foreignField: "PortfolioUniqueCode",
+            foreignField: "ProfileUniqueCode",
             as: "Services",
             pipeline: [
                 {
@@ -61,7 +61,7 @@ const getPortfolioCommonAggregatePipeline = (forPublic = false) => [
         $lookup: {
             from: tableNames.Projects,
             localField: "UniqueCode",
-            foreignField: "PortfolioUniqueCode",
+            foreignField: "ProfileUniqueCode",
             as: "Projects",
             pipeline: [
                 ...(forPublic ? [
@@ -84,7 +84,7 @@ const getPortfolioCommonAggregatePipeline = (forPublic = false) => [
         $lookup: {
             from: tableNames.Contacts,
             localField: "UniqueCode",
-            foreignField: "PortfolioUniqueCode",
+            foreignField: "ProfileUniqueCode",
             as: "Contacts",
             pipeline: [
                 {
@@ -119,39 +119,39 @@ const getPortfolioCommonAggregatePipeline = (forPublic = false) => [
     
 ]
 
-export const getPortfolio = asyncHandler(async (req) => {
-    const portfolio = await Portfolio.aggregate([
+export const getProfile = asyncHandler(async (req) => {
+    const profile = await ProfileModel.aggregate([
         {
             $match: {
                 UserUniqueCode: req.user.UniqueCode
             }
         },
-        ...getPortfolioCommonAggregatePipeline(false)
+        ...getProfileCommonAggregatePipeline(false)
     ]);
 
-    if (!portfolio.length) {
+    if (!profile.length) {
         throw new ApiError(
             404,
-            "Portfolio not found",
+            "Profile not found",
             ErrorTypes.NOT_FOUND
         );
     }
 
     return new ApiResponse(
         200,
-        portfolio[0],
-        "Portfolio retrieved successfully"
+        profile[0],
+        "Profile retrieved successfully"
     );
 });
 
-export const updatePortfolio = asyncHandler(async (req) => {
+export const updateProfile = asyncHandler(async (req) => {
 
-    const portfolio = await Portfolio.findOne({
+    const profile = await ProfileModel.findOne({
         UserUniqueCode: req.user.UniqueCode
     });
 
-    if (!portfolio) {
-        throw new ApiError(404, "Portfolio not found", ErrorTypes.NOT_FOUND);
+    if (!profile) {
+        throw new ApiError(404, "Profile not found", ErrorTypes.NOT_FOUND);
     }
 
     const allowedFields = [
@@ -169,49 +169,49 @@ export const updatePortfolio = asyncHandler(async (req) => {
 
     allowedFields.forEach(field => {
         if (req.body[field] !== undefined) {
-            portfolio[field] = req.body[field];
+            profile[field] = req.body[field];
         }
     });
 
-    await portfolio.save();
+    await profile.save();
 
     return new ApiResponse(
         200,
-        portfolio,
-        "Portfolio updated successfully"
+        profile,
+        "Profile updated successfully"
     );
 });
 
 export const uploadProfileImage = asyncHandler(async (req) => {
 
-    const portfolio = await Portfolio.findOne({
+    const profile = await ProfileModel.findOne({
         UserUniqueCode: req.user.UniqueCode
     });
 
-    if (!portfolio) {
+    if (!profile) {
         throw new ApiError(
             404,
-            "Portfolio not found",
+            "Profile not found",
             ErrorTypes.NOT_FOUND
         );
     }
 
-    if (portfolio.ProfileImage?.PublicId) {
+    if (profile.ProfileImage?.PublicId) {
         await deleteFromCloudinary(
-            portfolio.ProfileImage.PublicId
+            profile.ProfileImage.PublicId
         );
     }
 
     const image = await uploadToCloudinary(
         req.file,
-        CloudinaryFolders.Portfolio.ProfilePictures
+        CloudinaryFolders.Profile.ProfilePictures
     );
 
     image.UniqueCode = generateUniqueCode(UniqueCodePrefixes.Media);
 
-    portfolio.ProfileImage = image;
+    profile.ProfileImage = image;
 
-    await portfolio.save();
+    await profile.save();
 
     return new ApiResponse(
         200,
@@ -222,34 +222,34 @@ export const uploadProfileImage = asyncHandler(async (req) => {
 
 export const uploadCoverImage = asyncHandler(async (req) => {
 
-    const portfolio = await Portfolio.findOne({
+    const profile = await ProfileModel.findOne({
         UserUniqueCode: req.user.UniqueCode
     });
 
-    if (!portfolio) {
+    if (!profile) {
         throw new ApiError(
             404,
-            "Portfolio not found",
+            "Profile not found",
             ErrorTypes.NOT_FOUND
         );
     }
 
-    if (portfolio.CoverImage?.PublicId) {
+    if (profile.CoverImage?.PublicId) {
         await deleteFromCloudinary(
-            portfolio.CoverImage.PublicId
+            profile.CoverImage.PublicId
         );
     }
 
     const image = await uploadToCloudinary(
         req.file,
-        CloudinaryFolders.Portfolio.CoverPictures
+        CloudinaryFolders.Profile.CoverPictures
     );
 
     image.UniqueCode = generateUniqueCode(UniqueCodePrefixes.Media);
 
-    portfolio.CoverImage = image;
+    profile.CoverImage = image;
 
-    await portfolio.save();
+    await profile.save();
 
     return new ApiResponse(
         200,
@@ -260,27 +260,27 @@ export const uploadCoverImage = asyncHandler(async (req) => {
 
 export const deleteProfileImage = asyncHandler(async (req) => {
 
-    const portfolio = await Portfolio.findOne({
+    const profile = await ProfileModel.findOne({
         UserUniqueCode: req.user.UniqueCode
     });
 
-    if (!portfolio) {
+    if (!profile) {
         throw new ApiError(
             404,
-            "Portfolio not found",
+            "Profile not found",
             ErrorTypes.NOT_FOUND
         );
     }
 
-    if (portfolio.ProfileImage?.PublicId) {
+    if (profile.ProfileImage?.PublicId) {
         await deleteFromCloudinary(
-            portfolio.ProfileImage.PublicId
+            profile.ProfileImage.PublicId
         );
     }
 
-    portfolio.ProfileImage = null;
+    profile.ProfileImage = null;
 
-    await portfolio.save();
+    await profile.save();
 
     return new ApiResponse(
         200,
@@ -291,27 +291,27 @@ export const deleteProfileImage = asyncHandler(async (req) => {
 
 export const deleteCoverImage = asyncHandler(async (req) => {
 
-    const portfolio = await Portfolio.findOne({
+    const profile = await ProfileModel.findOne({
         UserUniqueCode: req.user.UniqueCode
     });
 
-    if (!portfolio) {
+    if (!profile) {
         throw new ApiError(
             404,
-            "Portfolio not found",
+            "Profile not found",
             ErrorTypes.NOT_FOUND
         );
     }
 
-    if (portfolio.CoverImage?.PublicId) {
+    if (profile.CoverImage?.PublicId) {
         await deleteFromCloudinary(
-            portfolio.CoverImage.PublicId
+            profile.CoverImage.PublicId
         );
     }
 
-    portfolio.CoverImage = null;
+    profile.CoverImage = null;
 
-    await portfolio.save();
+    await profile.save();
 
     return new ApiResponse(
         200,
@@ -320,35 +320,35 @@ export const deleteCoverImage = asyncHandler(async (req) => {
     );
 });
 
-export const getPortfolioBySlug = asyncHandler(async (req) => {
-    const portfolio = await Portfolio.aggregate([
+export const getProfileBySlug = asyncHandler(async (req) => {
+    const profile = await ProfileModel.aggregate([
         {
             $match: {
                 Slug: escapedSlug(req.params.slug),
             }
         },
-        ...getPortfolioCommonAggregatePipeline(true)
+        ...getProfileCommonAggregatePipeline(true)
     ]);
 
-    if (!portfolio.length) {
+    if (!profile.length) {
         throw new ApiError(
             404,
-            "Portfolio not found",
+            "Profile not found",
             ErrorTypes.NOT_FOUND
         );
     }
 
     return new ApiResponse(
         200,
-        portfolio[0],
-        "Portfolio retrieved successfully"
+        profile[0],
+        "Profile retrieved successfully"
     );
 });
 
-export const getDefaultPortfolio = asyncHandler(async (req) => {
+export const getDefaultProfile = asyncHandler(async (req) => {
     const siteSetting = await SiteSettingModel.findOne();
 
-    if(!siteSetting || !siteSetting?.DefaultPortfolioUniqueCode){
+    if(!siteSetting || !siteSetting?.DefaultProfileUniqueCode){
         return new ApiResponse(
             200,
             null,
@@ -356,16 +356,16 @@ export const getDefaultPortfolio = asyncHandler(async (req) => {
         )
     }
     
-    const portfolio = await Portfolio.aggregate([
+    const profile = await ProfileModel.aggregate([
         {
             $match: {
-                UniqueCode: siteSetting?.Settings?.DefaultPortfolioUniqueCode,
+                UniqueCode: siteSetting?.Settings?.DefaultProfileUniqueCode,
             }
         },
-        ...getPortfolioCommonAggregatePipeline(true)
+        ...getProfileCommonAggregatePipeline(true)
     ]);
 
-    if (!portfolio.length) {
+    if (!profile.length) {
         return new ApiResponse(
             200,
             null,
@@ -375,28 +375,28 @@ export const getDefaultPortfolio = asyncHandler(async (req) => {
 
     return new ApiResponse(
         200,
-        portfolio[0],
-        "Portfolio retrieved successfully"
+        profile[0],
+        "Profile retrieved successfully"
     );
 });
 
-export const updatePortfolioSlug = asyncHandler(async (req) => {
+export const updateProfileSlug = asyncHandler(async (req) => {
 
-    const portfolio = await Portfolio.findOne({
+    const profile = await ProfileModel.findOne({
         UserUniqueCode: req.user.UniqueCode
     });
 
-    if (!portfolio) {
-        throw new ApiError(404, "Portfolio not found", ErrorTypes.NOT_FOUND);
+    if (!profile) {
+        throw new ApiError(404, "Profile not found", ErrorTypes.NOT_FOUND);
     }
 
-    portfolio.Slug = req.params.slug.trim();
+    profile.Slug = req.params.slug.trim();
 
-    await portfolio.save();
+    await profile.save();
 
     return new ApiResponse(
         200,
-        portfolio,
-        "Portfolio slug updated successfully"
+        profile,
+        "profile slug updated successfully"
     );
 });
