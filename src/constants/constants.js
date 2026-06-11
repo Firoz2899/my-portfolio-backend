@@ -38,6 +38,7 @@ export const regex = Object.freeze({
 })
 
 export const UniqueCodePrefixes = Object.freeze({
+    Address: "ADR",
     Contact: "CNT",
     Experience: "EXP",
     Profile: "PRF",
@@ -46,6 +47,7 @@ export const UniqueCodePrefixes = Object.freeze({
     Media: "MED",
     Service: "SRV",
     Skill: "SKL",
+    SubSkill: "SUSKL",
     User: "USR"
 })
 

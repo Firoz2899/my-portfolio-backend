@@ -1,5 +1,5 @@
 import {body, check, param} from 'express-validator'
-import { regex } from '../constants/constants.js'
+import { regex } from '#constants/constants.js'
 
 export const signUpValidation = () => [
     body("FirstName")

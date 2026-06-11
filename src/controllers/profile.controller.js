@@ -6,10 +6,10 @@ import {
     uploadToCloudinary,
     escapedSlug,
     generateUniqueCode
-} from "../utils/index.js";
-import {tableNames, CloudinaryFolders, UniqueCodePrefixes, ErrorTypes} from '../constants/constants.js'
-import SiteSettingModel from "../models/siteSetting.model.js";
-import ProfileModel from "../models/profile.model.js";
+} from "#utils/index.js";
+import {tableNames, CloudinaryFolders, UniqueCodePrefixes, ErrorTypes} from '#constants/constants.js'
+import SiteSettingModel from "#models/siteSetting.model.js";
+import ProfileModel from "#models/profile.model.js";
 
 const getProfileCommonAggregatePipeline = (forPublic = false) => [
     {
@@ -28,6 +28,12 @@ const getProfileCommonAggregatePipeline = (forPublic = false) => [
         }
     },
     {
+      $unwind: {
+        path: "$Skills",
+        preserveNullAndEmptyArrays: true 
+      }
+    },
+    {
         $lookup: {
             from: tableNames.Experiences,
             localField: "UniqueCode",
@@ -43,6 +49,12 @@ const getProfileCommonAggregatePipeline = (forPublic = false) => [
         }
     },
     {
+      $unwind: {
+        path: "$Experiences",
+        preserveNullAndEmptyArrays: true 
+      }
+    },
+    {
         $lookup: {
             from: tableNames.Services,
             localField: "UniqueCode",
@@ -56,6 +68,12 @@ const getProfileCommonAggregatePipeline = (forPublic = false) => [
                 }
             ]
         }
+    },
+    {
+      $unwind: {
+        path: "$Services",
+        preserveNullAndEmptyArrays: true 
+      }
     },
     {
         $lookup: {
@@ -80,6 +98,12 @@ const getProfileCommonAggregatePipeline = (forPublic = false) => [
             ]
         }
     },
+    {
+      $unwind: {
+        path: "$Projects",
+        preserveNullAndEmptyArrays: true 
+      }
+    },
     ...(!forPublic ? {
         $lookup: {
             from: tableNames.Contacts,
@@ -93,6 +117,12 @@ const getProfileCommonAggregatePipeline = (forPublic = false) => [
                     }
                 }
             ]
+        }
+    }: {}),
+    ...(!forPublic ? {
+        $unwind: {
+            path: "$Contacts",
+            preserveNullAndEmptyArrays: true 
         }
     }: {}),
     {
@@ -161,9 +191,7 @@ export const updateProfile = asyncHandler(async (req) => {
         "AboutMe",
         "Email",
         "Phone",
-        "Location",
-        "LinkedIn",
-        "Github",
+        "Address",
         "ResumeUrl"
     ];
 

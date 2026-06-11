@@ -15,10 +15,10 @@ export const createProjectValidation = () => [
         .isURL()
         .withMessage("Invalid WebsiteUrl"),
 
-    body("GithubUrl")
-        .optional()
-        .isURL()
-        .withMessage("Invalid GithubUrl")
+    // body("GithubUrl")
+    //     .optional()
+    //     .isURL()
+    //     .withMessage("Invalid GithubUrl")
 ];
 
 export const updateProjectSlugValidation = () => [

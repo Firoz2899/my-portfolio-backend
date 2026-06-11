@@ -1,7 +1,8 @@
 import {Schema, model} from "mongoose";
-import { generateUniqueCode } from "../utils/helpers.js";
-import {MediaSchema} from "./media.model.js";
-import {tableNames, UniqueCodePrefixes} from '../constants/constants.js'
+import { generateUniqueCode } from "#utils/helpers.js";
+import {MediaSchema} from "#subModels/media.submodel.js";
+import {AddressSchema} from "#subModels/address.submodel.js";
+import {tableNames, UniqueCodePrefixes} from '#constants/constants.js'
 
 const ProfileSchema = new Schema(
 {
@@ -21,19 +22,6 @@ const ProfileSchema = new Schema(
         trim: true,
         required: true
     },
-
-    Designation: String,
-
-    Summary: String,
-
-    AboutMe: String,
-
-    ProfileImage: MediaSchema,
-
-    CoverImage: MediaSchema,
-
-    ResumeUrl: String,
-
     Email: {
         type: String,
         unique: true,
@@ -41,15 +29,31 @@ const ProfileSchema = new Schema(
         required: true,
         trim: true,
     },
-
     Phone: String,
-
-    Location: String,
-
-    LinkedIn: String,
-
-    Github: String,
-
+    Designation: String,
+    Hobbies: {
+      type: [String],
+      trim: true,
+    },
+    Language: {
+      type: [String],
+      trim: true,
+    },
+    Availability: {
+      type: String,
+      trim: true,
+    },
+    Summary: String,
+    AboutMe: String,
+    ProfileImage: {
+        type: MediaSchema
+    },
+    CoverImage: {
+        type: MediaSchema
+    },
+    Address: {
+        type: AddressSchema
+    },
     Slug: {
         type: String,
         required: true,

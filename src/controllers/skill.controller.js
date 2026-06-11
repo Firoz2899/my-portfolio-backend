@@ -1,10 +1,10 @@
-import Skill from "../models/skill.model.js";
+import Skill from "#models/skill.model.js";
 import {
   ApiError,
   ApiResponse,
   asyncHandler
-} from "../utils/index.js";
-import {ErrorTypes} from '../constants/constants.js'
+} from "#utils/index.js";
+import {ErrorTypes} from '#constants/constants.js'
 
 
 

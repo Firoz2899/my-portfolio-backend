@@ -5,13 +5,13 @@ import {
     updateDefaultProfile,
     deleteDefaultProfile
 }
-from "../controllers/setting.controller.js";
+from "#controllers/setting.controller.js";
 
-import { authenticateUser } from "../middlewares/auth.middleware.js";
-import { authenticateRole } from "../middlewares/role.middleware.js";
+import { authenticateUser } from "#middlewares/auth.middleware.js";
+import { authenticateRole } from "#middlewares/role.middleware.js";
 
-import { commonValidation, siteSettingValidation, validate } from "../validator/index.js";
-import {Roles, UniqueCodePrefixes} from '../constants/constants.js'
+import { commonValidation, siteSettingValidation, validate } from "#validator/index.js";
+import {Roles, UniqueCodePrefixes} from '#constants/constants.js'
 
 const router = Router();
 

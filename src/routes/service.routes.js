@@ -6,12 +6,12 @@ import {
   deleteService,
   getServiceByCode,
   getServicesByProfile
-} from "../controllers/service.controller.js";
+} from "#controllers/service.controller.js";
 
-import { authenticateUser } from "../middlewares/auth.middleware.js";
-import { getProfileCode } from "../middlewares/profileCode.middleware.js";
-import {serviceValidation, commonValidation, validate} from '../validator/index.js'
-import {UniqueCodePrefixes} from '../constants/constants.js'  
+import { authenticateUser } from "#middlewares/auth.middleware.js";
+import { getProfileCode } from "#middlewares/profileCode.middleware.js";
+import {serviceValidation, commonValidation, validate} from '#validator/index.js'
+import {UniqueCodePrefixes} from '#constants/constants.js'  
 
 const router = Router();
 

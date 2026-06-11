@@ -1,4 +1,4 @@
-import {connectMongo, config} from "./src/utils/index.js";
+import {connectMongo, config} from "#utils/index.js";
 import app from "./app.js";
 
 connectMongo()

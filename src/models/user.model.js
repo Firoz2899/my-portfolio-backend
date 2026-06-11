@@ -2,8 +2,8 @@
 import { model, Schema } from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken"
-import { config, generateUniqueCode, generateOTP } from "../utils/index.js";
-import {tableNames, Roles, UniqueCodePrefixes} from '../constants/constants.js'
+import { config, generateUniqueCode, generateOTP } from "#utils/index.js";
+import {tableNames, Roles, UniqueCodePrefixes} from '#constants/constants.js'
 
 const UserSchema = new Schema(
 {

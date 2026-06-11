@@ -1,6 +1,7 @@
 import {Schema, model} from "mongoose";
-import { generateUniqueCode } from "../utils/helpers.js";
-import {tableNames, UniqueCodePrefixes} from '../constants/constants.js'
+import { generateUniqueCode } from "#utils/helpers.js";
+import {tableNames, UniqueCodePrefixes} from '#constants/constants.js'
+import {SubSkillSchema} from '#subModels/skill.submodel.js'
 
 const SkillSchema = new Schema(
     {
@@ -20,20 +21,10 @@ const SkillSchema = new Schema(
             type: String,
             required: true
         },
-
-        Category:
-        {
-            type: String
-        },
-
-        Percentage:
-        {
-            type: Number,
-            default: 80
-        },
-
         Icon: String,
-
+        Skills: {
+            type: [SubSkillSchema]
+        },
         SortOrder:
         {
             type: Number,

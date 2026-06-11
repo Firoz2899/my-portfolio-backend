@@ -1,6 +1,6 @@
 
-import { ApiError, asyncHandler } from "../utils/index.js";
-import {ErrorTypes} from '../constants/constants.js'
+import { ApiError, asyncHandler } from "#utils/index.js";
+import {ErrorTypes} from '#constants/constants.js'
 
 export const authenticateRole = (...allowedRoles) => asyncHandler(async (req, res, next) => {
     try {

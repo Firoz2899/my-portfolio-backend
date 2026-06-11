@@ -1,7 +1,7 @@
 import {Schema, model} from "mongoose";
-import { generateUniqueCode } from "../utils/helpers.js";
-import {MediaSchema} from "./media.model.js";
-import {tableNames, UniqueCodePrefixes} from '../constants/constants.js'
+import { generateUniqueCode } from "#utils/helpers.js";
+import {MediaSchema} from "#subModels/media.submodel.js";
+import {tableNames, UniqueCodePrefixes} from '#constants/constants.js'
 
 const ProjectSchema = new Schema(
     {
@@ -33,8 +33,6 @@ const ProjectSchema = new Schema(
         Description: String,
 
         WebsiteUrl: String,
-
-        GithubUrl: String,
 
         CoverImage: MediaSchema,
 

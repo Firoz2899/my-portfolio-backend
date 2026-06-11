@@ -1,6 +1,6 @@
 import {Schema, model} from "mongoose";
-import { generateUniqueCode } from "../utils/helpers.js";
-import {tableNames, UniqueCodePrefixes} from '../constants/constants.js'
+import { generateUniqueCode } from "#utils/helpers.js";
+import {tableNames, UniqueCodePrefixes} from '#constants/constants.js'
 
 const ContactSchema = new mongoose.Schema(
     {

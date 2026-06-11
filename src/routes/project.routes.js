@@ -13,16 +13,16 @@ import {
     replaceProjectImage,
     deleteProjectImage
 }
-from "../controllers/project.controller.js";
+from "#controllers/project.controller.js";
 
-import { authenticateUser } from "../middlewares/auth.middleware.js";
+import { authenticateUser } from "#middlewares/auth.middleware.js";
 
-import { getProfileCode } from "../middlewares/profileCode.middleware.js";
+import { getProfileCode } from "#middlewares/profileCode.middleware.js";
 
-import { uploadImageInMemory } from "../utils/fileService.js";
+import { uploadImageInMemory } from "#utils/fileService.js";
 
-import { commonValidation, projectValidation, validate } from "../validator/index.js";
-import {UniqueCodePrefixes} from '../constants/constants.js'
+import { commonValidation, projectValidation, validate } from "#validator/index.js";
+import {UniqueCodePrefixes} from '#constants/constants.js'
 
 const uniqueCodeValidation = commonValidation.validateUniqueCode(UniqueCodePrefixes.Project, "projectCode");
 

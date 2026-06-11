@@ -1,7 +1,7 @@
 // utils/cloudinary.js
 
 import { generateUniqueCode } from "./helpers.js";
-import {CloudinaryFolders} from '../constants/constants.js'
+import {CloudinaryFolders} from '#constants/constants.js'
 import { config } from "./config.js";
 
 import { v2 as cloudinary } from "cloudinary";

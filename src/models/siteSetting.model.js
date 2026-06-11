@@ -1,5 +1,5 @@
 import {Schema, model} from 'mongoose';
-import {tableNames} from '../constants/constants.js'
+import {tableNames} from '#constants/constants.js'
 
 const SiteSettingSchema = new Schema({
     DefaultProfileUniqueCode: {

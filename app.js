@@ -4,10 +4,10 @@ import cookieParser from "cookie-parser";
 import path from 'path';
 import fs from "fs";
 import { fileURLToPath } from 'url';
-import { handleError } from "./src/middlewares/handleError.middleware.js";
+import { handleError } from "#middlewares/handleError.middleware.js";
 import YAML from "yaml";
 import swaggerUi from "swagger-ui-express";
-import swaggerDocument from "./src/swagger_document.config.js";
+import swaggerDocument from "#src/swagger_document.config.js";
 
 const app = express();
 
@@ -40,7 +40,7 @@ app.use(
 //#endregion
 
 //#region Routes
-import * as routes from './src/routes/index.js';
+import * as routes from '#routes/index.js';
 
 app.use("/api/v1/auth", routes.authRoutes);
 app.use("/api/v1/skills", routes.skillRoutes);

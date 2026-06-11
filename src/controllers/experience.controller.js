@@ -1,11 +1,11 @@
-import Experience from "../models/experience.model.js";
-import {ErrorTypes} from '../constants/constants.js'
+import Experience from "#models/experience.model.js";
+import {ErrorTypes} from '#constants/constants.js'
 
 import {
   ApiError,
   ApiResponse,
   asyncHandler
-} from "../utils/index.js";
+} from "#utils/index.js";
 
 export const createExperience = asyncHandler(async (req) => {
 

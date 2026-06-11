@@ -1,4 +1,6 @@
 import { Schema } from "mongoose";
+import { generateUniqueCode } from "#utils/helpers.js";
+import {UniqueCodePrefixes} from '#constants/constants.js'
 
 export const MediaSchema = new Schema(
     {

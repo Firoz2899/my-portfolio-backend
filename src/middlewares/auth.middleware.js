@@ -1,9 +1,9 @@
 // middleware/auth.middleware.js
 
 import jwt from "jsonwebtoken";
-import User from "../models/user.model.js";
-import { ApiError, config, asyncHandler } from "../utils/index.js";
-import {ErrorTypes} from '../constants/constants.js'
+import User from "#models/user.model.js";
+import { ApiError, config, asyncHandler } from "#utils/index.js";
+import {ErrorTypes} from '#constants/constants.js'
 
 export const authenticateUser = asyncHandler(async (req, res, next) => {
 

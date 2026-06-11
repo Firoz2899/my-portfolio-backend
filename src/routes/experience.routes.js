@@ -6,12 +6,12 @@ import {
   deleteExperience,
   getExperienceByCode,
   getAllExperiences
-} from "../controllers/experience.controller.js";
+} from "#controllers/experience.controller.js";
 
-import { authenticateUser } from "../middlewares/auth.middleware.js";
-import { getProfileCode } from "../middlewares/profileCode.middleware.js";
-import { experienceValidation, validate, commonValidation } from "../validator/index.js";
-import {UniqueCodePrefixes} from '../constants/constants.js'
+import { authenticateUser } from "#middlewares/auth.middleware.js";
+import { getProfileCode } from "#middlewares/profileCode.middleware.js";
+import { experienceValidation, validate, commonValidation } from "#validator/index.js";
+import {UniqueCodePrefixes} from '#constants/constants.js'
     
 const router = Router();
 

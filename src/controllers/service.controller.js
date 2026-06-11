@@ -1,11 +1,11 @@
-import Service from "../models/service.model.js";
+import Service from "#models/service.model.js";
 import {
   ApiError,
   ApiResponse,
   asyncHandler
-} from "../utils/index.js";
+} from "#utils/index.js";
 
-import {ErrorTypes} from '../constants/constants.js'
+import {ErrorTypes} from '#constants/constants.js'
 
 export const createService = asyncHandler(async (req) => {
 

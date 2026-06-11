@@ -1,7 +1,7 @@
-import ProfileModal from "../models/profile.model.js";
-import Project from "../models/project.model.js";
-import {ReservedSlugTypes, ErrorTypes} from '../constants/constants.js'
-import { ApiResponse, asyncHandler, escapedSlug } from "../utils/index.js";
+import ProfileModal from "#models/profile.model.js";
+import Project from "#models/project.model.js";
+import {ReservedSlugTypes, ErrorTypes} from '#constants/constants.js'
+import { ApiResponse, asyncHandler, escapedSlug } from "#utils/index.js";
 
 export const checkSlugAvailability = asyncHandler(async (req) => {
 

@@ -5,10 +5,10 @@ import {
     escapedSlug, 
     uploadToCloudinary, 
     deleteFromCloudinary 
-} from "../utils/index.js";
-import Project  from "../models/project.model.js";
-import {CloudinaryFolders, UniqueCodePrefixes, ErrorTypes} from '../constants/constants.js'
-import {generateUniqueCode} from '../utils/helpers.js'
+} from "#utils/index.js";
+import Project  from "#models/project.model.js";
+import {CloudinaryFolders, UniqueCodePrefixes, ErrorTypes} from '#constants/constants.js'
+import {generateUniqueCode} from '#utils/helpers.js'
 
 export const createProject = asyncHandler(async (req) => {
 

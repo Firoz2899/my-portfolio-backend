@@ -27,19 +27,19 @@ export const updateProfileValidation = () => [
         .optional()
         .trim(),
 
-    body("Location")
+    body("Address")
         .optional()
-        .trim(),
+        .isObject({}),
 
-    body("LinkedIn")
-        .optional()
-        .isURL()
-        .withMessage("Invalid LinkedIn URL"),
+    // body("LinkedIn")
+    //     .optional()
+    //     .isURL()
+    //     .withMessage("Invalid LinkedIn URL"),
 
-    body("Github")
-        .optional()
-        .isURL()
-        .withMessage("Invalid Github URL")
+    // body("Github")
+    //     .optional()
+    //     .isURL()
+    //     .withMessage("Invalid Github URL")
 ];
 
 export const updateProfileSlugValidation = () => [

@@ -1,12 +1,12 @@
-import User from "../models/user.model.js";
+import User from "#models/user.model.js";
 import {
   ApiError,
   ApiResponse,
   asyncHandler,
   generateOTP
-} from "../utils/index.js";
-import { ErrorTypes } from "../constants/constants.js";
-import ProfileModel from "../models/profile.model.js";
+} from "#utils/index.js";
+import { ErrorTypes } from "#constants/constants.js";
+import ProfileModel from "#models/profile.model.js";
 
 
 const cookieOptions = {

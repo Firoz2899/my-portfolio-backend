@@ -7,15 +7,15 @@ import {
   deleteReservedSlug,
   getReservedSlugs,
   getReservedSlugByCode
-} from "../controllers/slug.controller.js";
+} from "#controllers/slug.controller.js";
 
-import { getProfileCode } from "../middlewares/profileCode.middleware.js";
-import { validateSlug } from "../middlewares/slug.middleware.js";
-import { authenticateUser } from "../middlewares/auth.middleware.js";
-import { authenticateRole } from "../middlewares/role.middleware.js";
-import {slugValidation, validate, commonValidation} from '../validator/index.js'
+import { getProfileCode } from "#middlewares/profileCode.middleware.js";
+import { validateSlug } from "#middlewares/slug.middleware.js";
+import { authenticateUser } from "#middlewares/auth.middleware.js";
+import { authenticateRole } from "#middlewares/role.middleware.js";
+import {slugValidation, validate, commonValidation} from '#validator/index.js'
 
-import {Roles, UniqueCodePrefixes} from '../constants/constants.js'
+import {Roles, UniqueCodePrefixes} from '#constants/constants.js'
     
 const router = Router();
 

@@ -1,11 +1,12 @@
-import SiteSettingModel from "../models/siteSetting.model.js";
+import SiteSettingModel from "#models/siteSetting.model.js";
+import ProfileModel from "#models/profile.model.js";
 import {
   ApiError,
   ApiResponse,
   asyncHandler
-} from "../utils/index.js";
+} from "#utils/index.js";
 
-import {ErrorTypes} from '../constants/constants.js'
+import {ErrorTypes} from '#constants/constants.js'
 
 export const getSiteSettings = asyncHandler(async () => {
 
@@ -26,7 +27,6 @@ export const getSiteSettings = asyncHandler(async () => {
     );
 });
 
-import ProfileModel from "../models/profile.model.js";
 
 export const updateDefaultProfile = asyncHandler(async (req) => {
 

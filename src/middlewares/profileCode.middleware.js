@@ -1,7 +1,7 @@
 
-import { ApiError, asyncHandler } from "../utils/index.js";
-import {ErrorTypes} from '../constants/constants.js'
-import ProfileModel from "../models/profile.model.js";
+import { ApiError, asyncHandler } from "#utils/index.js";
+import {ErrorTypes} from '#constants/constants.js'
+import ProfileModel from "#models/profile.model.js";
 
 export const getProfileCode = asyncHandler(async (req, res, next) => {
     const user = req.user;

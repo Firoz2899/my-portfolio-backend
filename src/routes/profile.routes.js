@@ -11,13 +11,13 @@ import {
     updateProfileSlug,
     getDefaultProfile
 }
-from "../controllers/profile.controller.js";
+from "#controllers/profile.controller.js";
 
-import { authenticateUser } from "../middlewares/auth.middleware.js";
+import { authenticateUser } from "#middlewares/auth.middleware.js";
 
-import {uploadImageInMemory} from "../utils/fileService.js"
-import { commonValidation, profileValidation, validate } from "../validator/index.js";
-import {UniqueCodePrefixes} from '../constants/constants.js'
+import {uploadImageInMemory} from "#utils/fileService.js"
+import { commonValidation, profileValidation, validate } from "#validator/index.js";
+import {UniqueCodePrefixes} from '#constants/constants.js'
 
 const router = Router();
 

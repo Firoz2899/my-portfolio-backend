@@ -1,6 +1,6 @@
-import { ApiResponse, asyncHandler, escapedSlug } from "../utils/index.js";
-import ReservedSlug from "../models/reservedSlug.model.js";
-import {ErrorTypes} from '../constants/constants.js'
+import { ApiResponse, asyncHandler, escapedSlug } from "#utils/index.js";
+import ReservedSlug from "#models/reservedSlug.model.js";
+import {ErrorTypes} from '#constants/constants.js'
 
 export const validateSlug = asyncHandler(async (req, res, next) => {
 

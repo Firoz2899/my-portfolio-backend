@@ -19,11 +19,23 @@
     "express": "^5.2.1",
     "express-validator": "^7.3.2",
     "jsonwebtoken": "^9.0.3",
+    "module-alias": "^2.3.4",
     "mongoose": "^9.6.2",
     "multer": "^2.1.1",
     "multer-storage-cloudinary": "^4.0.0",
     "slugify": "^1.6.9",
     "swagger-ui-express": "^5.0.1",
     "yaml": "^2.9.0"
+  },
+  "imports": {
+    "#src/*": "./src/*",
+    "#controllers/*": "./src/controllers/*",
+    "#models/*": "./src/models/*",
+    "#subModels/*": "./src/models/sub-models/*",
+    "#routes/*": "./src/routes/*",
+    "#utils/*": "./src/utils/*",
+    "#middlewares/*": "./src/middlewares/*",
+    "#constants/*": "./src/constants/*",
+    "#validator/*": "./src/validator/*"
   }
 }
