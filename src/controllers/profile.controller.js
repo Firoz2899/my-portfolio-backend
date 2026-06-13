@@ -28,12 +28,6 @@ const getProfileCommonAggregatePipeline = (forPublic = false) => [
         }
     },
     {
-      $unwind: {
-        path: "$Skills",
-        preserveNullAndEmptyArrays: true 
-      }
-    },
-    {
         $lookup: {
             from: tableNames.Experiences,
             localField: "UniqueCode",
@@ -49,12 +43,6 @@ const getProfileCommonAggregatePipeline = (forPublic = false) => [
         }
     },
     {
-      $unwind: {
-        path: "$Experiences",
-        preserveNullAndEmptyArrays: true 
-      }
-    },
-    {
         $lookup: {
             from: tableNames.Services,
             localField: "UniqueCode",
@@ -68,12 +56,6 @@ const getProfileCommonAggregatePipeline = (forPublic = false) => [
                 }
             ]
         }
-    },
-    {
-      $unwind: {
-        path: "$Services",
-        preserveNullAndEmptyArrays: true 
-      }
     },
     {
         $lookup: {
@@ -98,13 +80,7 @@ const getProfileCommonAggregatePipeline = (forPublic = false) => [
             ]
         }
     },
-    {
-      $unwind: {
-        path: "$Projects",
-        preserveNullAndEmptyArrays: true 
-      }
-    },
-    ...(!forPublic ? {
+    ...(!forPublic ? [{
         $lookup: {
             from: tableNames.Contacts,
             localField: "UniqueCode",
@@ -118,16 +94,12 @@ const getProfileCommonAggregatePipeline = (forPublic = false) => [
                 }
             ]
         }
-    }: {}),
-    ...(!forPublic ? {
-        $unwind: {
-            path: "$Contacts",
-            preserveNullAndEmptyArrays: true 
-        }
-    }: {}),
+    }]: []),
     {
         $project: {
+            _id: 0,
             __v: 0,
+
             "Projects.__v": 0,
             "Projects._id": 0,
 
@@ -186,13 +158,15 @@ export const updateProfile = asyncHandler(async (req) => {
 
     const allowedFields = [
         "FullName",
-        "Designation",
-        "Summary",
-        "AboutMe",
         "Email",
         "Phone",
-        "Address",
-        "ResumeUrl"
+        "Designation",
+        "Hobbies",
+        "Language",
+        "Availability",
+        "Summary",
+        "AboutMe",
+        "Address"
     ];
 
     allowedFields.forEach(field => {

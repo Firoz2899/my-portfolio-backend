@@ -2,7 +2,9 @@ import {Schema, model} from "mongoose";
 import { generateUniqueCode } from "#utils/helpers.js";
 import {MediaSchema} from "#subModels/media.submodel.js";
 import {AddressSchema} from "#subModels/address.submodel.js";
+import {LanguageSchema} from "#subModels/language.submodel.js";
 import {tableNames, UniqueCodePrefixes} from '#constants/constants.js'
+
 
 const ProfileSchema = new Schema(
 {
@@ -34,10 +36,12 @@ const ProfileSchema = new Schema(
     Hobbies: {
       type: [String],
       trim: true,
+      default: []
     },
     Language: {
-      type: [String],
+      type: [LanguageSchema],
       trim: true,
+      default: []
     },
     Availability: {
       type: String,

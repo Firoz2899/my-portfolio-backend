@@ -10,6 +10,11 @@ export const tableNames = Object.freeze({
     Contacts: "Contacts"
 })
 
+export const HttpCookies = Object.freeze({
+    AccessToken: "accessToken",
+    RefreshToken: "refreshToken"
+})
+
 export const Roles = Object.freeze({
     SUPERADMIN: "SUPERADMIN",
     USER: "USER"
@@ -18,6 +23,12 @@ export const Roles = Object.freeze({
 export const ReservedSlugTypes = Object.freeze({
     PROFILE: "PROFILE",
     PROJECT: "PROJECT"
+})
+
+export const LanguageLevel = Object.freeze({
+    BASIC: "Basic",
+    INTERMEDIATE: "Intermediate",
+    NATIVE: "Native"
 })
 
 export const CloudinaryFolders = Object.freeze({
@@ -39,6 +50,7 @@ export const regex = Object.freeze({
 
 export const UniqueCodePrefixes = Object.freeze({
     Address: "ADR",
+    Language: "LAN",
     Contact: "CNT",
     Experience: "EXP",
     Profile: "PRF",

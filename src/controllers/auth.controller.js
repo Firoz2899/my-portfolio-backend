@@ -5,7 +5,7 @@ import {
   asyncHandler,
   generateOTP
 } from "#utils/index.js";
-import { ErrorTypes } from "#constants/constants.js";
+import { ErrorTypes, HttpCookies } from "#constants/constants.js";
 import ProfileModel from "#models/profile.model.js";
 
 
@@ -175,8 +175,8 @@ export const login = asyncHandler(async (req, res) => {
   
     res
     .status(200)
-    .cookie("accessToken", tokens.accessToken, cookieOptions)
-    .cookie("refreshToken", tokens.refreshToken, cookieOptions)
+    .cookie(HttpCookies.AccessToken, tokens.accessToken, cookieOptions)
+    .cookie(HttpCookies.RefreshToken, tokens.refreshToken, cookieOptions)
     .json(
         new ApiResponse(
             200, 
@@ -266,7 +266,17 @@ export const logout = asyncHandler(async (req, res) => {
 
     user.RefreshToken = null;
     await user.save({ validateBeforeSave: false });
-    return new ApiResponse(200, null, "Logged out successfully")
+    res
+    .clearCookie(HttpCookies.AccessToken, cookieOptions)
+    .clearCookie(HttpCookies.RefreshToken, cookieOptions)
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        null,
+        "Logged out successfully"
+      )
+    );
 })
 
 
@@ -278,9 +288,9 @@ export const getLoggedInUser = asyncHandler(async (req, res) => {
 
 
 
-export const refreshAccessToken = asyncHandler(async (req) => {
+export const refreshAccessToken = asyncHandler(async (req, res) => {
 
-    const incomingRefreshToken = req.cookies?.refreshToken || req.body.refreshToken;
+    const incomingRefreshToken = req.cookies?.[HttpCookies.RefreshToken] || req.body.refreshToken;
 
     if (!incomingRefreshToken) {
       throw new ApiError(
@@ -308,10 +318,16 @@ export const refreshAccessToken = asyncHandler(async (req) => {
 
     const tokens = await generateAccessAndRefereshTokens(user.UniqueCode);
 
-    return new ApiResponse(
-      200,
-      tokens,
-      "Access token refreshed"
+    res
+    .status(200)
+    .cookie(HttpCookies.AccessToken, tokens.accessToken, cookieOptions)
+    .cookie(HttpCookies.RefreshToken, tokens.refreshToken, cookieOptions)
+    .json(
+        new ApiResponse(
+            200, 
+            tokens, 
+            "Access token refreshed"
+        )
     );
   }
 );

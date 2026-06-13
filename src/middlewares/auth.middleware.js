@@ -3,13 +3,12 @@
 import jwt from "jsonwebtoken";
 import User from "#models/user.model.js";
 import { ApiError, config, asyncHandler } from "#utils/index.js";
-import {ErrorTypes} from '#constants/constants.js'
+import {ErrorTypes, HttpCookies} from '#constants/constants.js'
 
 export const authenticateUser = asyncHandler(async (req, res, next) => {
 
-    const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "")
+    const token = req.cookies?.[HttpCookies.AccessToken] || req.header("Authorization")?.replace("Bearer ", "")
     
-    // console.log(token);
     if (!token) {
         throw new ApiError(401, "Unauthorized request", ErrorTypes.UNAUTHORIZED)
     }
@@ -26,7 +25,7 @@ export const authenticateUser = asyncHandler(async (req, res, next) => {
         throw new ApiError(401, "Invalid Access Token", ErrorTypes.INVALID_TOKEN);
     }
 
-    const user = await User.findOne({UniqueCode: decodedToken?.UniqueCode}).select("-Password -RefreshToken -EmailOTP -EmailOTPExpiry -_id")
+    const user = await User.findOne({UniqueCode: decodedToken?.UniqueCode}).select("-Password -RefreshToken -EmailOTP -EmailOTPExpiry -_id -__v")
 
     if (!user) {
         throw new ApiError(401, "Invalid Access Token", ErrorTypes.INVALID_TOKEN)
