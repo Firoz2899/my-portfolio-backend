@@ -19,10 +19,14 @@ const ProfileSchema = new Schema(
         type: String,
         required: true
     },
-    FullName: {
+    FirstName: {
         type: String,
         trim: true,
         required: true
+    },
+    LastName: {
+        type: String,
+        trim: true
     },
     Email: {
         type: String,

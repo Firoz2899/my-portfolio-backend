@@ -10,6 +10,7 @@ import {
 import {tableNames, CloudinaryFolders, UniqueCodePrefixes, ErrorTypes} from '#constants/constants.js'
 import SiteSettingModel from "#models/siteSetting.model.js";
 import ProfileModel from "#models/profile.model.js";
+import UserModel from "#models/user.model.js";
 
 const getProfileCommonAggregatePipeline = (forPublic = false) => [
     {
@@ -157,7 +158,8 @@ export const updateProfile = asyncHandler(async (req) => {
     }
 
     const allowedFields = [
-        "FullName",
+        "FirstName",
+        "LastName",
         "Email",
         "Phone",
         "Designation",
@@ -168,13 +170,13 @@ export const updateProfile = asyncHandler(async (req) => {
         "AboutMe",
         "Address"
     ];
-
+    
     allowedFields.forEach(field => {
         if (req.body[field] !== undefined) {
             profile[field] = req.body[field];
         }
     });
-
+    
     await profile.save();
 
     return new ApiResponse(

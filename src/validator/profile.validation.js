@@ -3,6 +3,16 @@ import {LanguageLevel} from '#constants/constants.js'
 
 export const updateProfileValidation = () => [
 
+    body("FirstName")
+        .optional()
+        .trim()
+        .notEmpty()
+        .withMessage("FirstName cannot be empty"),
+
+    body("LastName")
+        .optional()
+        .trim(),
+
     body("FullName")
         .optional()
         .trim()
@@ -82,13 +92,60 @@ export const updateProfileValidation = () => [
 
     body("Address.Country")
         .optional()
+        .isObject()
+        .withMessage("Country must be an object"),
+
+    body("Address.Country.Name")
+        .optional()
+        .trim(),
+
+    body("Address.Country.Code")
+        .optional()
+        .trim(),
+
+    body("Address.Country.PhoneCode")
+        .optional()
+        .trim(),
+
+    body("Address.Country.Flag")
+        .optional()
+        .trim(),
+
+    body("Address.Country.Currency")
+        .optional()
         .trim(),
 
     body("Address.State")
         .optional()
+        .isObject()
+        .withMessage("State must be an object"),
+
+    body("Address.State.Name")
+        .optional()
+        .trim(),
+
+    body("Address.State.Code")
+        .optional()
+        .trim(),
+
+    body("Address.State.CountryCode")
+        .optional()
         .trim(),
 
     body("Address.City")
+        .optional()
+        .isObject()
+        .withMessage("State must be an object"),
+
+    body("Address.City.Name")
+        .optional()
+        .trim(),
+
+    body("Address.City.CountryCode")
+        .optional()
+        .trim(),
+
+    body("Address.City.StateCode")
         .optional()
         .trim(),
 

@@ -1,6 +1,9 @@
 import { Schema } from "mongoose";
 import { generateUniqueCode } from "#utils/helpers.js";
 import {UniqueCodePrefixes} from '#constants/constants.js'
+import { CountrySchema } from "#subModels/country.submodel.js";
+import { StateSchema } from "#subModels/state.submodel.js";
+import { CitySchema } from "#subModels/city.submodel.js";
 
 export const AddressSchema = new Schema(
     {
@@ -19,16 +22,13 @@ export const AddressSchema = new Schema(
             trim:true
         },
         Country:{
-            type:String,
-            trim:true
+            type: CountrySchema,
         },
         State:{
-            type:String,
-            trim:true
+            type: StateSchema,
         },
         City:{
-            type:String,
-            trim:true
+            type: CitySchema,
         },
         Pincode:{
             type:String,
