@@ -50,8 +50,7 @@ export const updateProfileValidation = () => [
 
     body("Language.*")
         .optional()
-        .isObject()
-        .trim(),
+        .isObject(),
 
     body("Language.*.Name")
         .optional()
@@ -134,20 +133,19 @@ export const updateProfileValidation = () => [
 
     body("Address.City")
         .optional()
-        .isObject()
-        .withMessage("State must be an object"),
-
-    body("Address.City.Name")
-        .optional()
         .trim(),
 
-    body("Address.City.CountryCode")
-        .optional()
-        .trim(),
+    // body("Address.City.Name")
+    //     .optional()
+    //     .trim(),
 
-    body("Address.City.StateCode")
-        .optional()
-        .trim(),
+    // body("Address.City.CountryCode")
+    //     .optional()
+    //     .trim(),
+
+    // body("Address.City.StateCode")
+    //     .optional()
+    //     .trim(),
 
     body("Address.Pincode")
         .optional()

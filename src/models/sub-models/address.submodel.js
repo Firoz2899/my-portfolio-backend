@@ -28,7 +28,8 @@ export const AddressSchema = new Schema(
             type: StateSchema,
         },
         City:{
-            type: CitySchema,
+            type: String,
+            trim: true
         },
         Pincode:{
             type:String,

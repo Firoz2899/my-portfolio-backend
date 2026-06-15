@@ -59,7 +59,8 @@ export const signup = asyncHandler(async (req) => {
   await ProfileModel.create({
     UserUniqueCode: user.UniqueCode,
     Slug: ProfileSlug.trim(),
-    FullName: `${FirstName} ${LastName}`,
+    FirstName,
+    LastName,
     Email: Email
   });
 
