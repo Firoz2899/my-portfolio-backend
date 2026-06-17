@@ -1,9 +1,11 @@
+import jwt from "jsonwebtoken";
 import User from "#models/user.model.js";
 import {
   ApiError,
   ApiResponse,
   asyncHandler,
-  generateOTP
+  generateOTP,
+  config
 } from "#utils/index.js";
 import { ErrorTypes, HttpCookies } from "#constants/constants.js";
 import ProfileModel from "#models/profile.model.js";
@@ -141,7 +143,7 @@ export const resendOtp = asyncHandler(async (req) => {
 
 export const login = asyncHandler(async (req, res) => {
 
-  const { Email, Password } = req.body;
+  const { Email, Password, RememberMe } = req.body;
 
   const user = await User.findOne({ Email });
 
@@ -172,27 +174,33 @@ export const login = asyncHandler(async (req, res) => {
   }
 
   // Generate tokens
-    const tokens = await generateAccessAndRefereshTokens(user.UniqueCode);
+  const tokens = await generateAccessAndRefereshTokens(user.UniqueCode);
   
-    res
+  let response = res
     .status(200)
     .cookie(HttpCookies.AccessToken, tokens.accessToken, cookieOptions)
-    .cookie(HttpCookies.RefreshToken, tokens.refreshToken, cookieOptions)
-    .json(
-        new ApiResponse(
-            200, 
-            {
-              tokens,
-              user: {
-                Name: user.Name,
-                Email: user.Email,
-                Role: user.Role,
-                UniqueCode: user.UniqueCode
-              }
-            }, 
-            "Login successful"
-        )
-    );
+    
+  if(RememberMe){
+    user.RefreshToken = tokens.refreshToken;
+    await user.save();
+    response.cookie(HttpCookies.RefreshToken, tokens.refreshToken, cookieOptions)
+  }
+
+  response.json(
+    new ApiResponse(
+      200, 
+      {
+        tokens,
+        user: {
+          Name: user.Name,
+          Email: user.Email,
+          Role: user.Role,
+          UniqueCode: user.UniqueCode
+        }
+      }, 
+      "Login successful"
+    )
+  );
 });
 
 export const forgotPassword = asyncHandler(async (req) => {
@@ -262,7 +270,7 @@ export const logout = asyncHandler(async (req, res) => {
     const user = await User.findOne({ UniqueCode: req.user.UniqueCode });
 
     if (!user) {
-        throw new ApiError(404, "User not found", ErrorTypes.USER_NOT_FOUND)
+      throw new ApiError(404, "User not found", ErrorTypes.USER_NOT_FOUND)
     }
 
     user.RefreshToken = null;
@@ -292,6 +300,7 @@ export const getLoggedInUser = asyncHandler(async (req, res) => {
 export const refreshAccessToken = asyncHandler(async (req, res) => {
 
     const incomingRefreshToken = req.cookies?.[HttpCookies.RefreshToken] || req.body.refreshToken;
+    console.log("🚀 ~ auth.controller.js:295 ~ incomingRefreshToken:", incomingRefreshToken);
 
     if (!incomingRefreshToken) {
       throw new ApiError(
@@ -301,11 +310,23 @@ export const refreshAccessToken = asyncHandler(async (req, res) => {
       );
     }
 
-    const decoded =
-      jwt.verify(
-        incomingRefreshToken,
-        config.refreshTokenSecret
-      );
+    let decoded;
+    console.log("issuer", config.issuer)
+    console.log("tokenSecret", config.refreshTokenSecret)
+
+    try {
+      decoded =
+        jwt.verify(
+          incomingRefreshToken,
+          config.refreshTokenSecret,
+          {
+            issuer: config.issuer
+          }
+        );
+    } catch (error) {
+      console.log("🚀 ~ auth.controller.js:314 ~ error:", error);
+      throw new ApiError(401, "Invaid refresh token", ErrorTypes.REFRESH_TOKEN_INVALID_OR_EXPIRED, error)
+    }
 
     const user = await User.findOne({ UniqueCode: decoded.UniqueCode });
 
@@ -317,7 +338,18 @@ export const refreshAccessToken = asyncHandler(async (req, res) => {
       );
     }
 
+    if(incomingRefreshToken.trim() !== user.RefreshToken){
+      throw new ApiError(
+        401, 
+        "refresh token is already used", 
+        ErrorTypes.REFRESH_TOKEN_INVALID_OR_EXPIRED
+      )
+    }
+
     const tokens = await generateAccessAndRefereshTokens(user.UniqueCode);
+
+    user.RefreshToken = tokens.refreshToken;
+    user.save();
 
     res
     .status(200)
