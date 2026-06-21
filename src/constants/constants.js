@@ -1,13 +1,13 @@
 export const tableNames = Object.freeze({
-    User: "Users",
-    Profiles: "Profiles",
-    Experiences: "Experiences",
-    Skills: "Skills",
-    Services: "Services",
-    Projects: "Projects",
-    SiteSettings: "SiteSettings",
-    ReservedSlugs: "ReservedSlugs",
-    Contacts: "Contacts"
+    User: "users",
+    Profiles: "profiles",
+    Experiences: "experiences",
+    Skills: "skills",
+    Services: "services",
+    Projects: "projects",
+    SiteSettings: "sitesettings",
+    ReservedSlugs: "reservedslugs",
+    Contacts: "contacts",
 })
 
 export const HttpCookies = Object.freeze({

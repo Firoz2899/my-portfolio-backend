@@ -300,7 +300,6 @@ export const getLoggedInUser = asyncHandler(async (req, res) => {
 export const refreshAccessToken = asyncHandler(async (req, res) => {
 
     const incomingRefreshToken = req.cookies?.[HttpCookies.RefreshToken] || req.body.refreshToken;
-    console.log("🚀 ~ auth.controller.js:295 ~ incomingRefreshToken:", incomingRefreshToken);
 
     if (!incomingRefreshToken) {
       throw new ApiError(
@@ -311,8 +310,6 @@ export const refreshAccessToken = asyncHandler(async (req, res) => {
     }
 
     let decoded;
-    console.log("issuer", config.issuer)
-    console.log("tokenSecret", config.refreshTokenSecret)
 
     try {
       decoded =
@@ -324,7 +321,6 @@ export const refreshAccessToken = asyncHandler(async (req, res) => {
           }
         );
     } catch (error) {
-      console.log("🚀 ~ auth.controller.js:314 ~ error:", error);
       throw new ApiError(401, "Invaid refresh token", ErrorTypes.REFRESH_TOKEN_INVALID_OR_EXPIRED, error)
     }
 
@@ -338,7 +334,7 @@ export const refreshAccessToken = asyncHandler(async (req, res) => {
       );
     }
 
-    if(incomingRefreshToken.trim() !== user.RefreshToken){
+    if(incomingRefreshToken.trim() === user.RefreshToken){
       throw new ApiError(
         401, 
         "refresh token is already used", 

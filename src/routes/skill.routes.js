@@ -3,6 +3,7 @@ import { Router } from "express";
 import {
   createSkill,
   updateSkill,
+  createSubSkill,
   deleteSkill,
   getSkillByCode,
   getSkillsByProfile
@@ -32,6 +33,16 @@ router.put(
     commonValidation.validateUniqueCode(UniqueCodePrefixes.Skill),
     validate,
   updateSkill
+);
+
+router.post(
+    "/:uniqueCode/subskills",
+    authenticateUser,
+    getProfileCode,
+    commonValidation.validateUniqueCode(UniqueCodePrefixes.Skill),
+    // skillValidation.createSubSkillValidation,
+    validate,
+    createSubSkill
 );
 
 router.delete(

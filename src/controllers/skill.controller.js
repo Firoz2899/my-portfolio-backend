@@ -10,29 +10,31 @@ import {ErrorTypes} from '#constants/constants.js'
 
 export const createSkill = asyncHandler(async (req) => {
 
-  const {
+  let {
     Title,
-    Category,
-    Percentage,
-    Icon,
-    SortOrder
+    Icon
   } = req.body;
 
-  if (!Title) {
-    throw new ApiError(
-      400,
-      "Title is required",
-      ErrorTypes.REQUIRED_FIELD_MISSING
-    );
+  let SortOrder = 0
+const s = await Skill.find({
+  Skills: {
+    $elemMatch: {
+      UniqueCode: { $exists: false }
+    }
   }
+})
+
+  const maxSkill  = await Skill.findOne({ProfileUniqueCode: req.profileCode})
+                        .sort({ SortOrder: -1 }).select("SortOrder");
+
+  SortOrder = maxSkill ? maxSkill.SortOrder + 1 : 1;
 
   const skill = await Skill.create({
     ProfileUniqueCode: req.profileCode,
     Title,
-    Category,
-    Percentage,
     Icon,
-    SortOrder
+    SortOrder,
+    Skills: []
   });
 
   await skill.save();
@@ -66,11 +68,64 @@ export const updateSkill = asyncHandler(async (req) => {
     req.body
   );
 
+  await skill.save();
+
   return new ApiResponse(
     200,
     skill,
     "Skill updated successfully"
   );
+});
+
+
+export const createSubSkill = asyncHandler(async (req) => {
+
+    const { uniqueCode } = req.params;
+    console.log("🚀 ~ skill.controller.js:84 ~ uniqueCode:", uniqueCode);
+
+    const {
+        Name,
+        Percentage
+    } = req.body;
+        console.log("🚀 ~ skill.controller.js:89 ~ Name:", Name);
+
+    const skillCategory = await Skill.findOne({
+        UniqueCode: uniqueCode,
+        ProfileUniqueCode: req.profileCode
+    });
+    console.log("🚀 ~ skill.controller.js:94 ~ skillCategory:", skillCategory);
+
+    if (!skillCategory) {
+        throw new ApiError(
+            404,
+            "Skill category not found",
+            ErrorTypes.UNAUTHORIZED_OR_NOT_FOUND
+        );
+    }
+
+    if(!!(skillCategory.Skills.find(x => x.Name.trim().toLowerCase() === Name.trim().toLowerCase()))){
+      throw new ApiError(409, "Skill already exists", ErrorTypes.RESOURCE_ALREADY_EXISTS)
+    }
+
+    const newSubSkill = {
+      Name: Name.trim(),
+      Percentage
+    };
+
+    skillCategory.Skills.push(newSubSkill);
+
+    await skillCategory.save();
+
+    const createdSubSkill = skillCategory.Skills.at(-1);
+
+    return new ApiResponse(
+        201,
+        {
+          SkillUniqueCode: skillCategory.UniqueCode,
+          SubSkill: createdSubSkill
+        },
+        "Sub skill created successfully"
+    );
 });
 
 export const deleteSkill = asyncHandler(async (req) => {

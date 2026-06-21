@@ -186,6 +186,27 @@ export const updateProfile = asyncHandler(async (req) => {
     );
 });
 
+export const updateTechnologies = asyncHandler(async (req) => {
+
+    const profile = await ProfileModel.findOne({
+        UserUniqueCode: req.user.UniqueCode
+    });
+
+    if (!profile) {
+        throw new ApiError(404, "Profile not found", ErrorTypes.NOT_FOUND);
+    }
+
+    profile.Technologies = req.body.Technologies || [];
+    
+    await profile.save();
+
+    return new ApiResponse(
+        200,
+        profile.Technologies,
+        "Technologies updated successfully"
+    );
+});
+
 export const uploadProfileImage = asyncHandler(async (req) => {
 
     const profile = await ProfileModel.findOne({

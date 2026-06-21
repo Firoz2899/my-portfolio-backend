@@ -158,3 +158,14 @@ export const updateProfileSlugValidation = () => [
         .notEmpty()
         .withMessage("Slug is required")
 ];
+
+export const updateTechnologiesValidation = () => [
+    body("Technologies")
+        .isArray().withMessage("Technologies should be an array of string")
+        .default([]),
+    
+    body("Technologies.*")
+        .optional()
+        .isString().withMessage("Technology should be a string")
+        .trim()
+];

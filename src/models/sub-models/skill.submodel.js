@@ -6,8 +6,7 @@ export const SubSkillSchema = new Schema(
     {
          UniqueCode: {
             type: String,
-            required: true,
-            unique: true,
+            // required: true,
             trim: true,
             default: () => generateUniqueCode(UniqueCodePrefixes.SubSkill)
         },
@@ -21,5 +20,8 @@ export const SubSkillSchema = new Schema(
             type: Number,
             default: 80
         },
+    },
+    {
+        _id: false
     }
 )

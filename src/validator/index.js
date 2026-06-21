@@ -1,13 +1,15 @@
 import { validationResult } from "express-validator";
 import { ApiError, asyncHandler } from "../utils/index.js";
+import { ErrorTypes } from "#src/constants/constants.js";
 
 export const validate = asyncHandler((req, res, next) => {
   const errors = validationResult(req);
+  console.log("🚀 ~ index.js:7 ~ errors:", errors);
   if (errors.isEmpty()) {
     return next();
   }
   const error = errors.array().map((item, i) => ({[item.path] : item.msg}))
-  throw new ApiError(422, "Received data is not valid", error);
+  throw new ApiError(422, "Received data is not valid", ErrorTypes.VALIDATION_ERROR, error);
 });
 
 

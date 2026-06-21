@@ -10,7 +10,8 @@ export const validateBodyIntId = (idName) => {
 
 export const validateUniqueCode = (startsWith, idName = "uniqueCode") => [
     param(idName)
-        .notEmpty()
-        .isBefore(startsWith)
-        .withMessage("UniqueCode is required")
+      .notEmpty()
+      .withMessage("UniqueCode is required")
+      .matches(new RegExp(`^${startsWith}`))
+      .withMessage(`UniqueCode must start with ${startsWith}`)
 ];

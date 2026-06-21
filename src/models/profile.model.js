@@ -37,6 +37,11 @@ const ProfileSchema = new Schema(
     },
     Phone: String,
     Designation: String,
+    Technologies: {
+      type: [String],
+      trim: true,
+      default: []
+    },
     Hobbies: {
       type: [String],
       trim: true,

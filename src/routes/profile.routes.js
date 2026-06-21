@@ -9,7 +9,8 @@ import {
     deleteCoverImage,
     getProfileBySlug,
     updateProfileSlug,
-    getDefaultProfile
+    getDefaultProfile,
+    updateTechnologies
 }
 from "#controllers/profile.controller.js";
 
@@ -58,6 +59,14 @@ router.put(
     profileValidation.updateProfileValidation(),
     validate,
     updateProfile
+);
+
+router.put(
+    "/update-technologies",
+    authenticateUser,
+    profileValidation.updateTechnologiesValidation(),
+    validate,
+    updateTechnologies
 );
 
 router.put(
