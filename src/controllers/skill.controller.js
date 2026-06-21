@@ -39,9 +39,15 @@ const s = await Skill.find({
 
   await skill.save();
 
+  const response = skill.toObject();
+
+  delete response._id;
+  delete response.__v;
+
+
   return new ApiResponse(
     201,
-    skill,
+    response,
     "Skill created successfully"
   );
 });
@@ -70,9 +76,14 @@ export const updateSkill = asyncHandler(async (req) => {
 
   await skill.save();
 
+  const response = skill.toObject();
+
+  delete response._id;
+  delete response.__v;
+
   return new ApiResponse(
     200,
-    skill,
+    response,
     "Skill updated successfully"
   );
 });
@@ -147,7 +158,7 @@ export const deleteSkill = asyncHandler(async (req) => {
 
   return new ApiResponse(
     200,
-    null,
+    {uniqueCode},
     "Skill deleted successfully"
   );
 });
