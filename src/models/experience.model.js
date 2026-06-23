@@ -1,6 +1,7 @@
 import {Schema, model} from "mongoose";
 import { generateUniqueCode } from "#utils/helpers.js";
 import {tableNames, UniqueCodePrefixes} from '#constants/constants.js'
+import { AddressSchema } from "./sub-models/address.submodel";
 
 const ExperienceSchema = new Schema(
     {
@@ -15,16 +16,42 @@ const ExperienceSchema = new Schema(
             type: String,
             required: true
         },
-
-        Company: String,
-
-        Designation: String,
-
-        StartDate: Date,
-
-        EndDate: Date,
-
-        Description: String
+        Company: {
+             type: String, 
+             trim: true, 
+             required: true 
+        },
+        Position: {
+             type: String, 
+             trim: true, 
+             required: true 
+        },
+        Address: {
+            type: AddressSchema
+        },
+        Phone: {
+            type: String, 
+            trim: true
+        },
+        Website: {
+            type: String, 
+            trim: true
+        },
+        StartDate: {
+            type: Date,
+            required: true
+        },
+        EndDate: {
+            type: Date
+        },
+        Description: {
+            type: String, 
+            trim: true
+        },
+        Achievements: {
+            type: [String], 
+            trim: true
+        }
     }, {
         timestamps: true
     }

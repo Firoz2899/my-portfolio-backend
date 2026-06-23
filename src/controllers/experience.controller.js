@@ -11,20 +11,30 @@ export const createExperience = asyncHandler(async (req) => {
 
   const {
     Company,
-    Designation,
+    Position,
+    Address,
+    Phone,
+    Website,
+    Description,
     StartDate,
     EndDate,
-    Description
+    Description,
+    Achievements
   } = req.body;
 
   const experience =
     await Experience.create({
       ProfileUniqueCode: req.profileCode,
       Company,
-      Designation,
+      Position,
+      Address,
+      Phone,
+      Website,
+      Description,
       StartDate,
       EndDate,
-      Description
+      Description,
+      Achievements
     });
 
   return new ApiResponse(
