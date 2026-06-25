@@ -1,7 +1,7 @@
 import {Schema, model} from "mongoose";
 import { generateUniqueCode } from "#utils/helpers.js";
 import {tableNames, UniqueCodePrefixes} from '#constants/constants.js'
-import { AddressSchema } from "./sub-models/address.submodel";
+import { AddressSchema } from "#subModels/address.submodel.js";
 
 const ExperienceSchema = new Schema(
     {

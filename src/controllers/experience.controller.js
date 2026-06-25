@@ -18,7 +18,6 @@ export const createExperience = asyncHandler(async (req) => {
     Description,
     StartDate,
     EndDate,
-    Description,
     Achievements
   } = req.body;
 
@@ -33,7 +32,6 @@ export const createExperience = asyncHandler(async (req) => {
       Description,
       StartDate,
       EndDate,
-      Description,
       Achievements
     });
 
@@ -95,7 +93,7 @@ export const deleteExperience = asyncHandler(async (req) => {
 
   return new ApiResponse(
     200,
-    null,
+    {ExperienceUniqueCode: uniqueCode},
     "Experience deleted successfully"
   );
 });

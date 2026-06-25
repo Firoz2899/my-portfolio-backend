@@ -92,19 +92,16 @@ export const updateSkill = asyncHandler(async (req) => {
 export const createSubSkill = asyncHandler(async (req) => {
 
     const { uniqueCode } = req.params;
-    console.log("🚀 ~ skill.controller.js:84 ~ uniqueCode:", uniqueCode);
 
     const {
         Name,
         Percentage
     } = req.body;
-        console.log("🚀 ~ skill.controller.js:89 ~ Name:", Name);
 
     const skillCategory = await Skill.findOne({
         UniqueCode: uniqueCode,
         ProfileUniqueCode: req.profileCode
     });
-    console.log("🚀 ~ skill.controller.js:94 ~ skillCategory:", skillCategory);
 
     if (!skillCategory) {
         throw new ApiError(
