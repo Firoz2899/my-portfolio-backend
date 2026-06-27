@@ -6,9 +6,9 @@ export const createExperienceValidation = () => [
         .notEmpty()
         .withMessage("Company is required"),
 
-    body("Designation")
+    body("Position")
         .notEmpty()
-        .withMessage("Designation is required"),
+        .withMessage("Position is required"),
 
     body("StartDate")
         .notEmpty()
