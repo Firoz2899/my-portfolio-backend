@@ -18,6 +18,8 @@ export * as commonValidation from './common.validation.js'
 export * as authValidation from './auth.validation.js'
 export * as profileValidation from "./profile.validation.js";
 export * as skillValidation from "./skill.validation.js";
+export * as teamMemberValidation from "./teamMember.validation.js";
+export * as educationValidation from "./education.validation.js";
 export * as experienceValidation from "./experience.validation.js";
 export * as serviceValidation from "./service.validation.js";
 export * as projectValidation from "./project.validation.js";

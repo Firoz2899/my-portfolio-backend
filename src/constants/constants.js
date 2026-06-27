@@ -1,6 +1,8 @@
 export const tableNames = Object.freeze({
     User: "users",
     Profiles: "profiles",
+    TeamMember: "team_members",
+    Education: "educations",
     Experiences: "experiences",
     Skills: "skills",
     Services: "services",
@@ -9,6 +11,15 @@ export const tableNames = Object.freeze({
     ReservedSlugs: "reservedslugs",
     Contacts: "contacts",
 })
+
+export const educationLevels = [
+    'High School',
+    "Bachelor's Degree",
+    "Master's Degree",
+    "PhD",
+    "Vocational Training",
+    "Certificate Program"
+];
 
 export const HttpCookies = Object.freeze({
     AccessToken: "accessToken",
@@ -39,6 +50,9 @@ export const CloudinaryFolders = Object.freeze({
     Project: Object.freeze({
         ProjectImages: "project/project-images",
         CoverImage: "project/cover-images"
+    }),
+    TeamMember: Object.freeze({
+        Image: "team-member"
     })
 });
 
@@ -52,6 +66,8 @@ export const UniqueCodePrefixes = Object.freeze({
     Address: "ADR",
     Language: "LAN",
     Contact: "CNT",
+    Education: "EDU",
+    TeamMember: "TEM",
     Experience: "EXP",
     Profile: "PRF",
     Project: "PRJ",

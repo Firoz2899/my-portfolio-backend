@@ -135,18 +135,6 @@ export const updateProfileValidation = () => [
         .optional()
         .trim(),
 
-    // body("Address.City.Name")
-    //     .optional()
-    //     .trim(),
-
-    // body("Address.City.CountryCode")
-    //     .optional()
-    //     .trim(),
-
-    // body("Address.City.StateCode")
-    //     .optional()
-    //     .trim(),
-
     body("Address.Pincode")
         .optional()
         .trim(),

@@ -30,6 +30,21 @@ const getProfileCommonAggregatePipeline = (forPublic = false) => [
     },
     {
         $lookup: {
+            from: tableNames.Education,
+            localField: "UniqueCode",
+            foreignField: "ProfileUniqueCode",
+            as: "Educations",
+            pipeline: [
+                {
+                    $sort: {
+                        StartDate: -1
+                    }
+                }
+            ]
+        }
+    },
+    {
+        $lookup: {
             from: tableNames.Experiences,
             localField: "UniqueCode",
             foreignField: "ProfileUniqueCode",

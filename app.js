@@ -45,6 +45,8 @@ import * as routes from '#routes/index.js';
 
 app.use("/api/v1/auth", routes.authRoutes);
 app.use("/api/v1/skills", routes.skillRoutes);
+app.use("/api/v1/team-members", routes.teamMemberRoutes);
+app.use("/api/v1/educations", routes.educationRoutes);
 app.use("/api/v1/experiences", routes.experienceRoutes);
 app.use("/api/v1/services", routes.serviceRoutes);
 app.use("/api/v1/projects", routes.projectRoutes);

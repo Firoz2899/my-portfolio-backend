@@ -1,5 +1,7 @@
 export {default as authRoutes} from './auth.routes.js';
 export {default as skillRoutes} from './skill.routes.js';
+export {default as teamMemberRoutes} from './teamMember.routes.js';
+export {default as educationRoutes} from './education.routes.js';
 export {default as experienceRoutes} from './experience.routes.js';
 export {default as serviceRoutes} from './service.routes.js';
 export {default as projectRoutes} from './project.routes.js';
